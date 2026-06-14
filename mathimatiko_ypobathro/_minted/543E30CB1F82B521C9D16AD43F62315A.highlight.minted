@@ -1,0 +1,302 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package}\PYG{+w}{ }\PYG{n+nn}{com.icsd16191.bdgka\PYGZus{}app\PYGZus{}client.crypto}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.io.BufferedReader}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.io.BufferedWriter}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.io.ByteArrayOutputStream}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.io.File}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.io.FileReader}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.io.FileWriter}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.io.IOException}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.nio.charset.StandardCharsets}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.nio.file.Files}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.nio.file.Path}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.security.MessageDigest}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.security.NoSuchAlgorithmException}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.ArrayList}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.Base64}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.List}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.springframework.stereotype.Service}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{com.icsd16191.bdgka\PYGZus{}app\PYGZus{}client.configuration.IdentityService.Identity}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{com.icsd16191.bdgka\PYGZus{}app\PYGZus{}client.entities.Block}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{com.icsd16191.bdgka\PYGZus{}app\PYGZus{}client.messages.CryptographicMessageParameters}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{com.icsd16191.bdgka\PYGZus{}app\PYGZus{}client.services.InMemoryKeyStoreService}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{it.unisa.dia.gas.jpbc.Element}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{it.unisa.dia.gas.jpbc.Pairing}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{lombok.RequiredArgsConstructor}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{tools.jackson.databind.ObjectMapper}\PYG{p}{;}
+
+\PYG{n+nd}{@Service}
+\PYG{n+nd}{@RequiredArgsConstructor}
+\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kd}{class} \PYG{n+nc}{CryptoService}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{TypeACurveGenerator}\PYG{+w}{ }\PYG{n}{gen}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{TypeACurveGenerator}\PYG{p}{(}\PYG{l+m+mi}{256}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1024}\PYG{p}{);}\PYG{c+c1}{// group security, size of base field}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{n}{InMemoryKeyStoreService}\PYG{+w}{ }\PYG{n}{keyStoreService}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{Pairing}\PYG{+w}{ }\PYG{n}{pairing}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{genitorElement}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{n}{Identity}\PYG{+w}{ }\PYG{n}{id}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{Files}\PYG{p}{.}\PYG{n+na}{exists}\PYG{p}{(}\PYG{n}{Path}\PYG{p}{.}\PYG{n+na}{of}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}src/main/resources/parameters.properties\PYGZdq{}}\PYG{p}{)))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}generating parameters\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{generateECParameters}\PYG{p}{();}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{Exception}\PYG{+w}{ }\PYG{n}{e}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{throw}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{RuntimeException}\PYG{p}{(}\PYG{n}{e}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{pairing}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{PairingFactory}\PYG{p}{.}\PYG{n+na}{getPairing}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}src/main/resources/parameters.properties\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{Files}\PYG{p}{.}\PYG{n+na}{exists}\PYG{p}{(}\PYG{n}{Path}\PYG{p}{.}\PYG{n+na}{of}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}src/main/resources/genitor.element\PYGZdq{}}\PYG{p}{)))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n}{genitorElement}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{getG1}\PYG{p}{().}\PYG{n+na}{newRandomElement}\PYG{p}{().}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{      }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{BufferedWriter}\PYG{+w}{ }\PYG{n}{writer}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{BufferedWriter}\PYG{p}{(}\PYG{k}{new}\PYG{+w}{ }\PYG{n}{FileWriter}\PYG{p}{(}\PYG{k}{new}\PYG{+w}{ }\PYG{n}{File}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}src/main/resources/genitor.element\PYGZdq{}}\PYG{p}{)));}
+\PYG{+w}{        }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{genitorStr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Base64}\PYG{p}{.}\PYG{n+na}{getEncoder}\PYG{p}{().}\PYG{n+na}{encodeToString}\PYG{p}{(}\PYG{n}{genitorElement}\PYG{p}{.}\PYG{n+na}{toBytes}\PYG{p}{());}
+\PYG{+w}{        }\PYG{n}{writer}\PYG{p}{.}\PYG{n+na}{write}\PYG{p}{(}\PYG{n}{genitorStr}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{writer}\PYG{p}{.}\PYG{n+na}{close}\PYG{p}{();}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{IOException}\PYG{+w}{ }\PYG{n}{e}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{e}\PYG{p}{.}\PYG{n+na}{printStackTrace}\PYG{p}{();}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{BufferedReader}\PYG{+w}{ }\PYG{n}{reader}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{BufferedReader}\PYG{p}{(}\PYG{k}{new}\PYG{+w}{ }\PYG{n}{FileReader}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}src/main/resources/genitor.element\PYGZdq{}}\PYG{p}{)))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{genitorStr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{reader}\PYG{p}{.}\PYG{n+na}{readLine}\PYG{p}{().}\PYG{n+na}{toString}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{genitorElement}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{getG1}\PYG{p}{().}\PYG{n+na}{newElementFromBytes}\PYG{p}{(}\PYG{n}{Base64}\PYG{p}{.}\PYG{n+na}{getDecoder}\PYG{p}{().}\PYG{n+na}{decode}\PYG{p}{(}\PYG{n}{genitorStr}\PYG{p}{)).}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{reader}\PYG{p}{.}\PYG{n+na}{close}\PYG{p}{();}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{IOException}\PYG{+w}{ }\PYG{n}{e}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{e}\PYG{p}{.}\PYG{n+na}{printStackTrace}\PYG{p}{();}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{generateECParameters}\PYG{p}{()}\PYG{+w}{ }\PYG{k+kd}{throws}\PYG{+w}{ }\PYG{n}{Exception}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{BufferedWriter}\PYG{+w}{ }\PYG{n}{bw}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{BufferedWriter}\PYG{p}{(}\PYG{k}{new}\PYG{+w}{ }\PYG{n}{FileWriter}\PYG{p}{(}\PYG{k}{new}\PYG{+w}{ }\PYG{n}{File}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}src/main/resources/parameters.properties\PYGZdq{}}\PYG{p}{)));}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{params}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{gen}\PYG{p}{.}\PYG{n+na}{generate}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{bw}\PYG{p}{.}\PYG{n+na}{write}\PYG{p}{(}\PYG{n}{params}\PYG{p}{.}\PYG{n+na}{toString}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{bw}\PYG{p}{.}\PYG{n+na}{flush}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{bw}\PYG{p}{.}\PYG{n+na}{close}\PYG{p}{();}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{generateMiKeys}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{mi}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{getZr}\PYG{p}{().}\PYG{n+na}{newRandomElement}\PYG{p}{().}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{Mi}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{genitorElement}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{powZn}\PYG{p}{(}\PYG{n}{mi}\PYG{p}{).}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{setMi\PYGZus{}public}\PYG{p}{(}\PYG{n}{Mi}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{setMi\PYGZus{}private}\PYG{p}{(}\PYG{n}{mi}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{generateSignatureKeys}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{mi}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{getZr}\PYG{p}{().}\PYG{n+na}{newRandomElement}\PYG{p}{().}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{Mi}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{genitorElement}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{powZn}\PYG{p}{(}\PYG{n}{mi}\PYG{p}{).}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{setPublicKey}\PYG{p}{(}\PYG{n}{Mi}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{setPrivateKey}\PYG{p}{(}\PYG{n}{mi}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n+nf}{base64Encode}\PYG{p}{(}\PYG{k+kt}{byte}\PYG{o}{[]}\PYG{+w}{ }\PYG{n}{value}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{encoder}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Base64}\PYG{p}{.}\PYG{n+na}{getEncoder}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{encoder}\PYG{p}{.}\PYG{n+na}{encodeToString}\PYG{p}{(}\PYG{n}{value}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{byte}\PYG{o}{[]}\PYG{+w}{ }\PYG{n+nf}{base64Decode}\PYG{p}{(}\PYG{n}{String}\PYG{+w}{ }\PYG{n}{base64}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{decoder}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Base64}\PYG{p}{.}\PYG{n+na}{getDecoder}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{decoder}\PYG{p}{.}\PYG{n+na}{decode}\PYG{p}{(}\PYG{n}{base64}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Element}\PYG{+w}{ }\PYG{n+nf}{elementFromHash}\PYG{p}{(}\PYG{k+kt}{byte}\PYG{o}{[]}\PYG{+w}{ }\PYG{n}{hash}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{getG1}\PYG{p}{().}\PYG{n+na}{newElementFromHash}\PYG{p}{(}\PYG{n}{hash}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{hash}\PYG{p}{.}\PYG{n+na}{length}\PYG{p}{).}\PYG{n+na}{getImmutable}\PYG{p}{();}
+
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Element}\PYG{+w}{ }\PYG{n+nf}{elementFromBytes}\PYG{p}{(}\PYG{k+kt}{byte}\PYG{o}{[]}\PYG{+w}{ }\PYG{n}{bytes}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{getG1}\PYG{p}{().}\PYG{n+na}{newElementFromBytes}\PYG{p}{(}\PYG{n}{bytes}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Element}\PYG{+w}{ }\PYG{n+nf}{elementFromBase64}\PYG{p}{(}\PYG{n}{String}\PYG{+w}{ }\PYG{n}{base64}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{bytes}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{base64Decode}\PYG{p}{(}\PYG{n}{base64}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{el}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{getG1}\PYG{p}{().}\PYG{n+na}{newElementFromBytes}\PYG{p}{(}\PYG{n}{bytes}\PYG{p}{).}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{el}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n+nf}{blsSignature}\PYG{p}{(}\PYG{k+kt}{byte}\PYG{o}{[]}\PYG{+w}{ }\PYG{n}{content}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{h}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{elementFromHash}\PYG{p}{(}\PYG{n}{content}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{sig}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{h}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{powZn}\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getPrivateKey}\PYG{p}{());}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{base64Encode}\PYG{p}{(}\PYG{n}{sig}\PYG{p}{.}\PYG{n+na}{toBytes}\PYG{p}{());}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{c+c1}{// this one gets used}
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Element}\PYG{+w}{ }\PYG{n+nf}{h2}\PYG{p}{(}\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{h0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{h1}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{sig}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{h0}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{powZn}\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getPrivateKey}\PYG{p}{()).}\PYG{n+na}{add}\PYG{p}{(}
+\PYG{+w}{        }\PYG{n}{h1}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{powZn}\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getPrivateKey}\PYG{p}{())).}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{sig}\PYG{p}{;}
+
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Boolean}\PYG{+w}{ }\PYG{n+nf}{blsVerify}\PYG{p}{(}\PYG{k+kt}{byte}\PYG{o}{[]}\PYG{+w}{ }\PYG{n}{content}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{byte}\PYG{o}{[]}\PYG{+w}{ }\PYG{n}{signature}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{publicKey}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{h}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{elementFromBytes}\PYG{p}{(}\PYG{n}{content}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{sig}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{getG1}\PYG{p}{().}\PYG{n+na}{newElementFromBytes}\PYG{p}{(}\PYG{n}{signature}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{temp1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{pairing}\PYG{p}{(}\PYG{n}{sig}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{genitorElement}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{temp2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{pairing}\PYG{p}{(}\PYG{n}{h}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{publicKey}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{temp1}\PYG{p}{.}\PYG{n+na}{isEqual}\PYG{p}{(}\PYG{n}{temp2}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Boolean}\PYG{+w}{ }\PYG{n+nf}{h2Verify}\PYG{p}{(}\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{el1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{el2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{sig}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{publicKey}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{left}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{pairing}\PYG{p}{(}\PYG{n}{sig}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{genitorElement}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{()).}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{    }\PYG{c+c1}{// System.out.println(\PYGZdq{}left\PYGZhy{}\PYGZgt{} \PYGZdq{} + left);}
+\PYG{+w}{    }\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{right0}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{pairing}\PYG{p}{(}\PYG{n}{el1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{publicKey}\PYG{p}{).}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{right1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{pairing}\PYG{p}{(}\PYG{n}{el2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{publicKey}\PYG{p}{).}\PYG{n+na}{getImmutable}\PYG{p}{();}
+
+\PYG{+w}{    }\PYG{c+c1}{// System.out.println(\PYGZdq{}right\PYGZhy{}\PYGZgt{} \PYGZdq{} + right0.duplicate().mul(right1));}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{left}\PYG{p}{.}\PYG{n+na}{isEqual}\PYG{p}{(}\PYG{n}{right0}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{mul}\PYG{p}{(}\PYG{n}{right1}\PYG{p}{));}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Block}\PYG{+w}{ }\PYG{n+nf}{createBlock}\PYG{p}{(}\PYG{n}{String}\PYG{+w}{ }\PYG{n}{id}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{ms}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{block}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Block}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{ms}\PYG{p}{.}\PYG{n+na}{add}\PYG{p}{(}\PYG{n}{base64Encode}\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getMi\PYGZus{}public}\PYG{p}{().}\PYG{n+na}{toBytes}\PYG{p}{()));}
+\PYG{+w}{    }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{setMs}\PYG{p}{(}\PYG{n}{ms}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{bytes}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{ByteArrayOutputStream}\PYG{p}{();}
+
+\PYG{+w}{    }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n}{bytes}\PYG{p}{.}\PYG{n+na}{write}\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getPublicKey}\PYG{p}{().}\PYG{n+na}{toBytes}\PYG{p}{());}
+\PYG{+w}{      }\PYG{n}{bytes}\PYG{p}{.}\PYG{n+na}{write}\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getMi\PYGZus{}public}\PYG{p}{().}\PYG{n+na}{toBytes}\PYG{p}{());}
+\PYG{+w}{      }\PYG{c+c1}{// bytes.write(keyStoreService.getPrivateKey().toBytes());}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{IOException}\PYG{+w}{ }\PYG{n}{e}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n}{e}\PYG{p}{.}\PYG{n+na}{printStackTrace}\PYG{p}{();}
+\PYG{+w}{      }\PYG{k}{throw}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{RuntimeException}\PYG{p}{(}\PYG{n}{e}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kt}{byte}\PYG{o}{[]}\PYG{+w}{ }\PYG{n}{hi2data}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{bytes}\PYG{p}{.}\PYG{n+na}{toByteArray}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{hi2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{elementFromHash}\PYG{p}{(}\PYG{n}{hi2data}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{setHi2}\PYG{p}{(}\PYG{n}{base64Encode}\PYG{p}{(}\PYG{n}{hi2}\PYG{p}{.}\PYG{n+na}{toBytes}\PYG{p}{()));}
+
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{signature}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{h2}\PYG{p}{(}\PYG{n}{hi2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getMi\PYGZus{}public}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{setSignature}\PYG{p}{(}\PYG{n}{base64Encode}\PYG{p}{(}\PYG{n}{signature}\PYG{p}{.}\PYG{n+na}{toBytes}\PYG{p}{()));}
+
+\PYG{+w}{    }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{setId}\PYG{p}{(}\PYG{n}{id}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{setTimestamp}\PYG{p}{(}\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{currentTimeMillis}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{setNextIp}\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getNext}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{setPk}\PYG{p}{(}\PYG{n}{base64Encode}\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getPublicKey}\PYG{p}{().}\PYG{n+na}{toBytes}\PYG{p}{()));}
+\PYG{+w}{    }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{setHeader}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Key\PYGZhy{}Computation\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// tests}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getMi\PYGZus{}public}\PYG{p}{().}\PYG{n+na}{isEqual}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{genitorElement}\PYG{p}{.}\PYG{n+na}{powZn}\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getMi\PYGZus{}private}\PYG{p}{())))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Mi test ok\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Mi test error\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{elementFromBase64}\PYG{p}{(}\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getHi2}\PYG{p}{()).}\PYG{n+na}{isEqual}\PYG{p}{(}\PYG{n}{hi2}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Hi2 ok\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Hi2 error\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{elementFromBase64}\PYG{p}{(}\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getSignature}\PYG{p}{()).}\PYG{n+na}{isEqual}\PYG{p}{(}\PYG{n}{signature}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}signature ok\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}signature error\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{h2Verify}\PYG{p}{(}
+\PYG{+w}{        }\PYG{n}{elementFromBase64}\PYG{p}{(}\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getHi2}\PYG{p}{()),}
+\PYG{+w}{        }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getMi\PYGZus{}public}\PYG{p}{(),}
+\PYG{+w}{        }\PYG{n}{elementFromBase64}\PYG{p}{(}\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getSignature}\PYG{p}{()),}
+\PYG{+w}{        }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getPublicKey}\PYG{p}{()))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Block \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{} is ok\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Block \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{} not verified\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{block}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{CryptographicMessageParameters}\PYG{+w}{ }\PYG{n+nf}{produceMessageParametersFromBlock}\PYG{p}{(}\PYG{n}{Block}\PYG{+w}{ }\PYG{n}{block}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{cm}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{CryptographicMessageParameters}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{cm}\PYG{p}{.}\PYG{n+na}{setHi2}\PYG{p}{(}\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getHi2}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{cm}\PYG{p}{.}\PYG{n+na}{setHii}\PYG{p}{(}\PYG{n}{blsSignature}\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getMi\PYGZus{}public}\PYG{p}{().}\PYG{n+na}{toBytes}\PYG{p}{()));}
+\PYG{+w}{    }\PYG{n}{cm}\PYG{p}{.}\PYG{n+na}{setIp}\PYG{p}{(}\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getNextIp}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{cm}\PYG{p}{.}\PYG{n+na}{setPku}\PYG{p}{(}\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getPk}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{cm}\PYG{p}{.}\PYG{n+na}{setSign1}\PYG{p}{(}\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getSignature}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getSignature}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{cm}\PYG{p}{.}\PYG{n+na}{setMi}\PYG{p}{(}\PYG{n}{base64Encode}\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getMi\PYGZus{}public}\PYG{p}{().}\PYG{n+na}{toBytes}\PYG{p}{()));}
+
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{verifyUser}\PYG{p}{(}\PYG{n}{block}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{cm}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}verification process error\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{cm}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Boolean}\PYG{+w}{ }\PYG{n+nf}{verifyUser}\PYG{p}{(}\PYG{n}{Block}\PYG{+w}{ }\PYG{n}{block}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{CryptographicMessageParameters}\PYG{+w}{ }\PYG{n}{params}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{h2Verify}\PYG{p}{(}
+\PYG{+w}{        }\PYG{n}{elementFromBase64}\PYG{p}{(}\PYG{n}{params}\PYG{p}{.}\PYG{n+na}{getHi2}\PYG{p}{()),}
+\PYG{+w}{        }\PYG{n}{elementFromBase64}\PYG{p}{(}\PYG{n}{params}\PYG{p}{.}\PYG{n+na}{getMi}\PYG{p}{()),}
+\PYG{+w}{        }\PYG{n}{elementFromBase64}\PYG{p}{(}\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getSignature}\PYG{p}{()),}
+\PYG{+w}{        }\PYG{n}{elementFromBase64}\PYG{p}{(}\PYG{n}{params}\PYG{p}{.}\PYG{n+na}{getPku}\PYG{p}{()));}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n+nf}{computeFsListAndGkForUn}\PYG{p}{(}\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{ms}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{fs}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{ArrayList}\PYG{o}{\PYGZlt{}\PYGZgt{}}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{tn}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{getZr}\PYG{p}{().}\PYG{n+na}{newRandomElement}\PYG{p}{().}\PYG{n+na}{getImmutable}\PYG{p}{();}
+
+\PYG{+w}{    }\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{sumFr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{ms}\PYG{p}{.}\PYG{n+na}{size}\PYG{p}{();}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{m}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{ms}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{n}{i}\PYG{p}{);}
+\PYG{+w}{      }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{fcurrent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{elementFromBase64}\PYG{p}{(}\PYG{n}{m}\PYG{p}{).}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{powZn}\PYG{p}{(}\PYG{n}{tn}\PYG{p}{).}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{      }\PYG{n}{fs}\PYG{p}{.}\PYG{n+na}{add}\PYG{p}{(}\PYG{n}{base64Encode}\PYG{p}{(}\PYG{n}{fcurrent}\PYG{p}{.}\PYG{n+na}{toBytes}\PYG{p}{()));}
+
+\PYG{+w}{      }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{sumFr}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{sumFr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{fcurrent}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{sumFr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{sumFr}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{add}\PYG{p}{(}\PYG{n}{fcurrent}\PYG{p}{).}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{betaN}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{genitorElement}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{mul}\PYG{p}{(}\PYG{n}{sumFr}\PYG{p}{).}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{alpha}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{genitorElement}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{powZn}\PYG{p}{(}\PYG{n}{tn}\PYG{p}{).}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZbs{}n\PYGZbs{}t\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{alpha}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{} \PYGZbs{}n\PYGZbs{}t\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{betaN}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{setGroupKey}\PYG{p}{(}\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{pairing}\PYG{p}{(}
+\PYG{+w}{        }\PYG{n}{alpha}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n}{betaN}\PYG{p}{).}\PYG{n+na}{getImmutable}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}START\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{n}{id}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}group key for Un \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getGroupKey}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}END\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{computeGkForUi}\PYG{p}{(}\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Integer}\PYG{+w}{ }\PYG{n}{index}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{invertedMi}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getMi\PYGZus{}private}\PYG{p}{().}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{invert}\PYG{p}{().}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{Element}\PYG{+w}{ }\PYG{n}{betaK}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{alphak}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{invertedMi}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{fk}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{elementFromBase64}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{.}\PYG{n+na}{size}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{index}\PYG{p}{));}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{String}\PYG{+w}{ }\PYG{n}{f}\PYG{+w}{ }\PYG{p}{:}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{betaK}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{betaK}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{elementFromBase64}\PYG{p}{(}\PYG{n}{f}\PYG{p}{).}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{betaK}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{betaK}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{add}\PYG{p}{(}\PYG{n}{elementFromBase64}\PYG{p}{(}\PYG{n}{f}\PYG{p}{)).}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{alphak}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{fk}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{powZn}\PYG{p}{(}\PYG{n}{alphak}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{()).}\PYG{n+na}{getImmutable}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{setGroupKey}\PYG{p}{(}\PYG{n}{pairing}\PYG{p}{.}\PYG{n+na}{pairing}\PYG{p}{(}\PYG{n}{alphak}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{genitorElement}\PYG{p}{.}\PYG{n+na}{duplicate}\PYG{p}{().}\PYG{n+na}{mul}\PYG{p}{(}\PYG{n}{betaK}\PYG{p}{).}\PYG{n+na}{getImmutable}\PYG{p}{()));}
+\PYG{+w}{    }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZbs{}n\PYGZbs{}t\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{alphak}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}\PYGZbs{}n\PYGZbs{}t\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{betaK}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}START\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{n}{id}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}group key for Un\PYGZhy{}\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{index}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{} \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getGroupKey}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}END\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n+nf}{h1Gk}\PYG{p}{()}\PYG{+w}{ }\PYG{k+kd}{throws}\PYG{+w}{ }\PYG{n}{NoSuchAlgorithmException}\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{hash}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{MessageDigest}\PYG{p}{.}\PYG{n+na}{getInstance}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}SHA\PYGZhy{}512\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{gk}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getGroupKey}\PYG{p}{().}\PYG{n+na}{duplicate}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{base64Encode}\PYG{p}{(}\PYG{n}{hash}\PYG{p}{.}\PYG{n+na}{digest}\PYG{p}{(}\PYG{n}{gk}\PYG{p}{.}\PYG{n+na}{toBytes}\PYG{p}{()));}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Boolean}\PYG{+w}{ }\PYG{n+nf}{h1VerifyGk}\PYG{p}{(}\PYG{n}{String}\PYG{+w}{ }\PYG{n}{base64GkHash}\PYG{p}{)}\PYG{+w}{ }\PYG{k+kd}{throws}\PYG{+w}{ }\PYG{n}{NoSuchAlgorithmException}\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{MessageDigest}\PYG{p}{.}\PYG{n+na}{isEqual}\PYG{p}{(}\PYG{n}{base64Decode}\PYG{p}{(}\PYG{n}{h1Gk}\PYG{p}{()),}\PYG{+w}{ }\PYG{n}{base64Decode}\PYG{p}{(}\PYG{n}{base64GkHash}\PYG{p}{));}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{\PYGZcb{}}
+
+\PYG{o}{\PYGZca{}\PYGZca{}}\PYG{n}{I}
+\end{MintedVerbatim}

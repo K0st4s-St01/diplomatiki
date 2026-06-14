@@ -1,0 +1,296 @@
+p4
+2026-05-30T12:50:57.291+03:00  INFO 49003 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 49003 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:50:59.196+03:00  INFO 49003 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9091 (http) with context path '/'
+archlinux/192.168.2.20:9091started at Sat May 30 12:51:18 EEST 2026 -> 1780134678553
+2026-05-30T12:50:57.302+03:00  INFO 49011 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 49011 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:50:59.222+03:00  INFO 49011 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9092 (http) with context path '/'
+archlinux/192.168.2.20:9092started at Sat May 30 12:51:18 EEST 2026 -> 1780134678552
+2026-05-30T12:50:57.171+03:00  INFO 48982 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 48982 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:50:59.094+03:00  INFO 48982 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9093 (http) with context path '/'
+archlinux/192.168.2.20:9093started at Sat May 30 12:51:18 EEST 2026 -> 1780134678551
+2026-05-30T12:50:57.341+03:00  INFO 49027 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 49027 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:50:59.184+03:00  INFO 49027 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9094 (http) with context path '/'
+archlinux/192.168.2.20:9094started at Sat May 30 12:51:18 EEST 2026 -> 1780134678551
+archlinux/192.168.2.20:9092gk-final at Sat May 30 12:51:33 EEST 2026 -> 1780134693854
+archlinux/192.168.2.20:9093gk-final at Sat May 30 12:51:33 EEST 2026 -> 1780134693662
+archlinux/192.168.2.20:9094gk-final at Sat May 30 12:51:33 EEST 2026 -> 1780134693445
+received 16
+received 15
+received 14
+p8
+2026-05-30T12:47:32.412+03:00  INFO 44703 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 44703 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:47:35.126+03:00  INFO 44703 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9091 (http) with context path '/'
+archlinux/192.168.2.20:9091started at Sat May 30 12:48:32 EEST 2026 -> 1780134512240
+2026-05-30T12:47:33.024+03:00  INFO 44819 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 44819 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:47:35.641+03:00  INFO 44819 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9092 (http) with context path '/'
+archlinux/192.168.2.20:9092started at Sat May 30 12:48:32 EEST 2026 -> 1780134512241
+2026-05-30T12:47:32.082+03:00  INFO 44666 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 44666 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:47:34.911+03:00  INFO 44666 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9093 (http) with context path '/'
+archlinux/192.168.2.20:9093started at Sat May 30 12:48:32 EEST 2026 -> 1780134512240
+2026-05-30T12:47:32.393+03:00  INFO 44685 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 44685 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:47:35.114+03:00  INFO 44685 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9094 (http) with context path '/'
+archlinux/192.168.2.20:9094started at Sat May 30 12:48:32 EEST 2026 -> 1780134512241
+2026-05-30T12:47:32.354+03:00  INFO 44686 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 44686 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:47:35.236+03:00  INFO 44686 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9095 (http) with context path '/'
+archlinux/192.168.2.20:9095started at Sat May 30 12:48:32 EEST 2026 -> 1780134512241
+2026-05-30T12:47:32.561+03:00  INFO 44719 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 44719 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:47:35.334+03:00  INFO 44719 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9096 (http) with context path '/'
+archlinux/192.168.2.20:9096started at Sat May 30 12:48:32 EEST 2026 -> 1780134512241
+2026-05-30T12:47:32.430+03:00  INFO 44726 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 44726 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:47:35.210+03:00  INFO 44726 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9097 (http) with context path '/'
+archlinux/192.168.2.20:9097started at Sat May 30 12:48:32 EEST 2026 -> 1780134512241
+2026-05-30T12:47:32.766+03:00  INFO 44791 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 44791 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:47:35.518+03:00  INFO 44791 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9098 (http) with context path '/'
+archlinux/192.168.2.20:9098started at Sat May 30 12:48:32 EEST 2026 -> 1780134512242
+archlinux/192.168.2.20:9092gk-final at Sat May 30 12:49:02 EEST 2026 -> 1780134542373
+archlinux/192.168.2.20:9093gk-final at Sat May 30 12:49:02 EEST 2026 -> 1780134542155
+archlinux/192.168.2.20:9094gk-final at Sat May 30 12:49:01 EEST 2026 -> 1780134541941
+archlinux/192.168.2.20:9095gk-final at Sat May 30 12:49:01 EEST 2026 -> 1780134541724
+archlinux/192.168.2.20:9096gk-final at Sat May 30 12:49:02 EEST 2026 -> 1780134542996
+archlinux/192.168.2.20:9097gk-final at Sat May 30 12:49:02 EEST 2026 -> 1780134542803
+archlinux/192.168.2.20:9098gk-final at Sat May 30 12:49:02 EEST 2026 -> 1780134542587
+received 29
+received 28
+received 27
+received 26
+received 32
+received 31
+received 30
+p16
+2026-05-30T12:43:22.157+03:00  INFO 39255 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39255 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:27.682+03:00  INFO 39255 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9091 (http) with context path '/'
+archlinux/192.168.2.20:9091started at Sat May 30 12:43:53 EEST 2026 -> 1780134233291
+2026-05-30T12:43:23.819+03:00  INFO 39374 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39374 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:28.462+03:00  INFO 39374 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9092 (http) with context path '/'
+archlinux/192.168.2.20:9092started at Sat May 30 12:43:53 EEST 2026 -> 1780134233295
+2026-05-30T12:43:22.201+03:00  INFO 39067 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39067 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:27.318+03:00  INFO 39067 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9093 (http) with context path '/'
+archlinux/192.168.2.20:9093started at Sat May 30 12:43:53 EEST 2026 -> 1780134233292
+2026-05-30T12:43:22.604+03:00  INFO 39221 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39221 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:27.631+03:00  INFO 39221 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9094 (http) with context path '/'
+archlinux/192.168.2.20:9094started at Sat May 30 12:43:53 EEST 2026 -> 1780134233301
+2026-05-30T12:43:23.197+03:00  INFO 39322 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39322 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:28.593+03:00  INFO 39322 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9095 (http) with context path '/'
+archlinux/192.168.2.20:9095started at Sat May 30 12:43:53 EEST 2026 -> 1780134233293
+2026-05-30T12:43:22.391+03:00  INFO 39092 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39092 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:27.999+03:00  INFO 39092 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9096 (http) with context path '/'
+archlinux/192.168.2.20:9096started at Sat May 30 12:43:53 EEST 2026 -> 1780134233296
+2026-05-30T12:43:23.272+03:00  INFO 39367 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39367 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:28.646+03:00  INFO 39367 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9097 (http) with context path '/'
+archlinux/192.168.2.20:9097started at Sat May 30 12:43:53 EEST 2026 -> 1780134233293
+2026-05-30T12:43:22.418+03:00  INFO 39160 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39160 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:28.013+03:00  INFO 39160 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9098 (http) with context path '/'
+archlinux/192.168.2.20:9098started at Sat May 30 12:43:53 EEST 2026 -> 1780134233292
+2026-05-30T12:43:22.198+03:00  INFO 39156 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39156 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:27.799+03:00  INFO 39156 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9099 (http) with context path '/'
+archlinux/192.168.2.20:9099started at Sat May 30 12:43:53 EEST 2026 -> 1780134233295
+2026-05-30T12:43:22.504+03:00  INFO 39155 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39155 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:27.615+03:00  INFO 39155 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9100 (http) with context path '/'
+archlinux/192.168.2.20:9100started at Sat May 30 12:43:53 EEST 2026 -> 1780134233292
+2026-05-30T12:43:22.151+03:00  INFO 39053 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39053 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:27.860+03:00  INFO 39053 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9101 (http) with context path '/'
+archlinux/192.168.2.20:9101started at Sat May 30 12:43:53 EEST 2026 -> 1780134233294
+2026-05-30T12:43:23.280+03:00  INFO 39266 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39266 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:28.070+03:00  INFO 39266 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9102 (http) with context path '/'
+archlinux/192.168.2.20:9102started at Sat May 30 12:43:53 EEST 2026 -> 1780134233295
+2026-05-30T12:43:21.790+03:00  INFO 39099 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39099 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:26.878+03:00  INFO 39099 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9103 (http) with context path '/'
+archlinux/192.168.2.20:9103started at Sat May 30 12:43:53 EEST 2026 -> 1780134233291
+2026-05-30T12:43:23.078+03:00  INFO 39305 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39305 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:28.036+03:00  INFO 39305 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9104 (http) with context path '/'
+archlinux/192.168.2.20:9104started at Sat May 30 12:43:53 EEST 2026 -> 1780134233302
+2026-05-30T12:43:22.901+03:00  INFO 39157 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39157 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:28.304+03:00  INFO 39157 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9105 (http) with context path '/'
+archlinux/192.168.2.20:9105started at Sat May 30 12:43:53 EEST 2026 -> 1780134233297
+2026-05-30T12:43:23.518+03:00  INFO 39362 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 39362 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:43:28.531+03:00  INFO 39362 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9106 (http) with context path '/'
+archlinux/192.168.2.20:9106started at Sat May 30 12:43:53 EEST 2026 -> 1780134233293
+archlinux/192.168.2.20:9092gk-final at Sat May 30 12:44:54 EEST 2026 -> 1780134294628
+archlinux/192.168.2.20:9093gk-final at Sat May 30 12:44:54 EEST 2026 -> 1780134294418
+archlinux/192.168.2.20:9094gk-final at Sat May 30 12:44:54 EEST 2026 -> 1780134294217
+archlinux/192.168.2.20:9095gk-final at Sat May 30 12:44:54 EEST 2026 -> 1780134294004
+archlinux/192.168.2.20:9096gk-final at Sat May 30 12:44:55 EEST 2026 -> 1780134295464
+archlinux/192.168.2.20:9097gk-final at Sat May 30 12:44:55 EEST 2026 -> 1780134295283
+archlinux/192.168.2.20:9098gk-final at Sat May 30 12:44:55 EEST 2026 -> 1780134295061
+archlinux/192.168.2.20:9099gk-final at Sat May 30 12:44:54 EEST 2026 -> 1780134294848
+archlinux/192.168.2.20:9100gk-final at Sat May 30 12:44:53 EEST 2026 -> 1780134293182
+archlinux/192.168.2.20:9101gk-final at Sat May 30 12:44:52 EEST 2026 -> 1780134292977
+archlinux/192.168.2.20:9102gk-final at Sat May 30 12:44:52 EEST 2026 -> 1780134292763
+archlinux/192.168.2.20:9103gk-final at Sat May 30 12:44:52 EEST 2026 -> 1780134292546
+archlinux/192.168.2.20:9104gk-final at Sat May 30 12:44:53 EEST 2026 -> 1780134293789
+archlinux/192.168.2.20:9105gk-final at Sat May 30 12:44:53 EEST 2026 -> 1780134293569
+archlinux/192.168.2.20:9106gk-final at Sat May 30 12:44:53 EEST 2026 -> 1780134293376
+received 60
+received 59
+received 58
+received 57
+received 64
+received 63
+received 62
+received 61
+received 53
+received 52
+received 51
+received 50
+received 56
+received 55
+received 54
+p32
+2026-05-30T12:29:38.157+03:00  INFO 16633 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16633 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.209+03:00  INFO 16633 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9091 (http) with context path '/'
+archlinux/192.168.2.20:9091started at Sat May 30 12:30:08 EEST 2026 -> 1780133408712
+2026-05-30T12:29:36.985+03:00  INFO 16640 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16640 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.359+03:00  INFO 16640 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9092 (http) with context path '/'
+archlinux/192.168.2.20:9092started at Sat May 30 12:30:08 EEST 2026 -> 1780133408706
+2026-05-30T12:29:39.752+03:00  INFO 17079 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 17079 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.930+03:00  INFO 17079 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9093 (http) with context path '/'
+archlinux/192.168.2.20:9093started at Sat May 30 12:30:08 EEST 2026 -> 1780133408712
+2026-05-30T12:29:38.097+03:00  INFO 16768 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16768 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.067+03:00  INFO 16768 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9094 (http) with context path '/'
+archlinux/192.168.2.20:9094started at Sat May 30 12:30:08 EEST 2026 -> 1780133408708
+2026-05-30T12:29:38.613+03:00  INFO 16923 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16923 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.693+03:00  INFO 16923 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9095 (http) with context path '/'
+archlinux/192.168.2.20:9095started at Sat May 30 12:30:08 EEST 2026 -> 1780133408714
+2026-05-30T12:29:37.894+03:00  INFO 16569 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16569 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:49.917+03:00  INFO 16569 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9096 (http) with context path '/'
+archlinux/192.168.2.20:9096started at Sat May 30 12:30:08 EEST 2026 -> 1780133408705
+2026-05-30T12:29:37.725+03:00  INFO 16593 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16593 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.133+03:00  INFO 16593 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9097 (http) with context path '/'
+archlinux/192.168.2.20:9097started at Sat May 30 12:30:08 EEST 2026 -> 1780133408721
+2026-05-30T12:29:39.496+03:00  INFO 17002 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 17002 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:51.293+03:00  INFO 17002 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9098 (http) with context path '/'
+archlinux/192.168.2.20:9098started at Sat May 30 12:30:08 EEST 2026 -> 1780133408726
+2026-05-30T12:29:37.848+03:00  INFO 16641 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16641 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:49.562+03:00  INFO 16641 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9099 (http) with context path '/'
+archlinux/192.168.2.20:9099started at Sat May 30 12:30:08 EEST 2026 -> 1780133408714
+2026-05-30T12:29:38.634+03:00  INFO 16980 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16980 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.626+03:00  INFO 16980 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9100 (http) with context path '/'
+archlinux/192.168.2.20:9100started at Sat May 30 12:30:08 EEST 2026 -> 1780133408712
+2026-05-30T12:29:48.347+03:00  INFO 17690 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 17690 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:52.769+03:00  INFO 17690 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9101 (http) with context path '/'
+archlinux/192.168.2.20:9101started at Sat May 30 12:30:08 EEST 2026 -> 1780133408705
+2026-05-30T12:29:37.097+03:00  INFO 16804 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16804 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:49.747+03:00  INFO 16804 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9102 (http) with context path '/'
+archlinux/192.168.2.20:9102started at Sat May 30 12:30:08 EEST 2026 -> 1780133408715
+2026-05-30T12:29:37.643+03:00  INFO 16556 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16556 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.528+03:00  INFO 16556 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9103 (http) with context path '/'
+archlinux/192.168.2.20:9103started at Sat May 30 12:30:08 EEST 2026 -> 1780133408721
+2026-05-30T12:29:37.690+03:00  INFO 16668 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16668 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:49.542+03:00  INFO 16668 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9104 (http) with context path '/'
+archlinux/192.168.2.20:9104started at Sat May 30 12:30:08 EEST 2026 -> 1780133408706
+2026-05-30T12:29:37.916+03:00  INFO 16697 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16697 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.194+03:00  INFO 16697 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9105 (http) with context path '/'
+archlinux/192.168.2.20:9105started at Sat May 30 12:30:08 EEST 2026 -> 1780133408708
+2026-05-30T12:29:38.190+03:00  INFO 16652 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16652 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.094+03:00  INFO 16652 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9106 (http) with context path '/'
+archlinux/192.168.2.20:9106started at Sat May 30 12:30:08 EEST 2026 -> 1780133408716
+2026-05-30T12:29:38.221+03:00  INFO 16877 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16877 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:49.472+03:00  INFO 16877 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9107 (http) with context path '/'
+archlinux/192.168.2.20:9107started at Sat May 30 12:30:08 EEST 2026 -> 1780133408725
+2026-05-30T12:29:37.478+03:00  INFO 16462 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16462 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.330+03:00  INFO 16462 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9108 (http) with context path '/'
+archlinux/192.168.2.20:9108started at Sat May 30 12:30:08 EEST 2026 -> 1780133408704
+2026-05-30T12:29:38.838+03:00  INFO 16983 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16983 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:49.704+03:00  INFO 16983 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9109 (http) with context path '/'
+archlinux/192.168.2.20:9109started at Sat May 30 12:30:08 EEST 2026 -> 1780133408716
+2026-05-30T12:29:38.408+03:00  INFO 16587 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16587 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:49.798+03:00  INFO 16587 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9110 (http) with context path '/'
+archlinux/192.168.2.20:9110started at Sat May 30 12:30:08 EEST 2026 -> 1780133408719
+2026-05-30T12:29:38.001+03:00  INFO 16681 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16681 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:49.630+03:00  INFO 16681 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9111 (http) with context path '/'
+archlinux/192.168.2.20:9111started at Sat May 30 12:30:08 EEST 2026 -> 1780133408728
+2026-05-30T12:29:38.065+03:00  INFO 16717 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16717 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:49.044+03:00  INFO 16717 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9112 (http) with context path '/'
+archlinux/192.168.2.20:9112started at Sat May 30 12:30:08 EEST 2026 -> 1780133408708
+2026-05-30T12:29:39.291+03:00  INFO 17078 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 17078 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.033+03:00  INFO 17078 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9113 (http) with context path '/'
+archlinux/192.168.2.20:9113started at Sat May 30 12:30:08 EEST 2026 -> 1780133408705
+2026-05-30T12:29:37.236+03:00  INFO 16773 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16773 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.020+03:00  INFO 16773 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9114 (http) with context path '/'
+archlinux/192.168.2.20:9114started at Sat May 30 12:30:08 EEST 2026 -> 1780133408715
+2026-05-30T12:29:38.668+03:00  INFO 16800 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16800 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:51.259+03:00  INFO 16800 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9115 (http) with context path '/'
+archlinux/192.168.2.20:9115started at Sat May 30 12:30:08 EEST 2026 -> 1780133408707
+2026-05-30T12:29:38.019+03:00  INFO 16496 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16496 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.396+03:00  INFO 16496 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9116 (http) with context path '/'
+archlinux/192.168.2.20:9116started at Sat May 30 12:30:08 EEST 2026 -> 1780133408716
+2026-05-30T12:29:42.428+03:00  INFO 17460 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 17460 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:51.753+03:00  INFO 17460 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9117 (http) with context path '/'
+archlinux/192.168.2.20:9117started at Sat May 30 12:30:08 EEST 2026 -> 1780133408712
+2026-05-30T12:29:37.547+03:00  INFO 16499 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16499 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.043+03:00  INFO 16499 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9118 (http) with context path '/'
+archlinux/192.168.2.20:9118started at Sat May 30 12:30:08 EEST 2026 -> 1780133408716
+2026-05-30T12:29:38.241+03:00  INFO 16743 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16743 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:49.036+03:00  INFO 16743 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9119 (http) with context path '/'
+archlinux/192.168.2.20:9119started at Sat May 30 12:30:08 EEST 2026 -> 1780133408707
+2026-05-30T12:29:37.947+03:00  INFO 16490 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16490 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.896+03:00  INFO 16490 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9120 (http) with context path '/'
+archlinux/192.168.2.20:9120started at Sat May 30 12:30:08 EEST 2026 -> 1780133408716
+2026-05-30T12:29:38.570+03:00  INFO 16951 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 16951 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.686+03:00  INFO 16951 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9121 (http) with context path '/'
+archlinux/192.168.2.20:9121started at Sat May 30 12:30:08 EEST 2026 -> 1780133408717
+2026-05-30T12:29:39.854+03:00  INFO 17132 --- [bdgka_app_client] [           main] c.i.b.BdgkaAppClientApplication          : Starting BdgkaAppClientApplication using Java 21.0.11 with PID 17132 (/home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client/target/classes started by xator in /home/xator/Diplomatiki/Applications/kgc/applications/bdgka_app_client)
+2026-05-30T12:29:50.341+03:00  INFO 17132 --- [bdgka_app_client] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9122 (http) with context path '/'
+archlinux/192.168.2.20:9122started at Sat May 30 12:30:08 EEST 2026 -> 1780133408704
+archlinux/192.168.2.20:9092gk-final at Sat May 30 12:32:13 EEST 2026 -> 1780133533620
+archlinux/192.168.2.20:9093gk-final at Sat May 30 12:32:13 EEST 2026 -> 1780133533418
+archlinux/192.168.2.20:9094gk-final at Sat May 30 12:32:13 EEST 2026 -> 1780133533217
+archlinux/192.168.2.20:9095gk-final at Sat May 30 12:32:13 EEST 2026 -> 1780133533009
+archlinux/192.168.2.20:9096gk-final at Sat May 30 12:32:14 EEST 2026 -> 1780133534640
+archlinux/192.168.2.20:9097gk-final at Sat May 30 12:32:14 EEST 2026 -> 1780133534460
+archlinux/192.168.2.20:9098gk-final at Sat May 30 12:32:14 EEST 2026 -> 1780133534248
+archlinux/192.168.2.20:9099gk-final at Sat May 30 12:32:14 EEST 2026 -> 1780133534043
+archlinux/192.168.2.20:9100gk-final at Sat May 30 12:32:09 EEST 2026 -> 1780133529358
+archlinux/192.168.2.20:9101gk-final at Sat May 30 12:32:08 EEST 2026 -> 1780133528928
+archlinux/192.168.2.20:9102gk-final at Sat May 30 12:32:08 EEST 2026 -> 1780133528739
+archlinux/192.168.2.20:9103gk-final at Sat May 30 12:32:08 EEST 2026 -> 1780133528521
+archlinux/192.168.2.20:9104gk-final at Sat May 30 12:32:10 EEST 2026 -> 1780133530522
+archlinux/192.168.2.20:9105gk-final at Sat May 30 12:32:10 EEST 2026 -> 1780133530328
+archlinux/192.168.2.20:9106gk-final at Sat May 30 12:32:09 EEST 2026 -> 1780133529816
+archlinux/192.168.2.20:9107gk-final at Sat May 30 12:32:09 EEST 2026 -> 1780133529581
+archlinux/192.168.2.20:9108gk-final at Sat May 30 12:32:08 EEST 2026 -> 1780133528330
+archlinux/192.168.2.20:9109gk-final at Sat May 30 12:32:08 EEST 2026 -> 1780133528128
+archlinux/192.168.2.20:9110gk-final at Sat May 30 12:32:13 EEST 2026 -> 1780133533826
+archlinux/192.168.2.20:9111gk-final at Sat May 30 12:32:11 EEST 2026 -> 1780133531954
+archlinux/192.168.2.20:9112gk-final at Sat May 30 12:32:11 EEST 2026 -> 1780133531742
+archlinux/192.168.2.20:9113gk-final at Sat May 30 12:32:11 EEST 2026 -> 1780133531525
+archlinux/192.168.2.20:9114gk-final at Sat May 30 12:32:11 EEST 2026 -> 1780133531320
+archlinux/192.168.2.20:9115gk-final at Sat May 30 12:32:12 EEST 2026 -> 1780133532812
+archlinux/192.168.2.20:9116gk-final at Sat May 30 12:32:12 EEST 2026 -> 1780133532611
+archlinux/192.168.2.20:9117gk-final at Sat May 30 12:32:12 EEST 2026 -> 1780133532386
+archlinux/192.168.2.20:9118gk-final at Sat May 30 12:32:12 EEST 2026 -> 1780133532162
+archlinux/192.168.2.20:9119gk-final at Sat May 30 12:32:11 EEST 2026 -> 1780133531115
+archlinux/192.168.2.20:9120gk-final at Sat May 30 12:32:10 EEST 2026 -> 1780133530917
+archlinux/192.168.2.20:9121gk-final at Sat May 30 12:32:10 EEST 2026 -> 1780133530720
+archlinux/192.168.2.20:9122gk-final at Sat May 30 12:32:09 EEST 2026 -> 1780133529136
+received 123
+received 122
+received 121
+received 120
+received 128
+received 127
+received 126
+received 125
+received 104
+received 102
+received 101
+received 100
+received 108
+received 107
+received 106
+received 105
+received 99
+received 98
+received 124
+received 115
+received 114
+received 113
+received 112
+received 119
+received 118
+received 117
+received 116
+received 111
+received 110
+received 109
+received 103

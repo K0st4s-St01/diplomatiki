@@ -1,0 +1,204 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package}\PYG{+w}{ }\PYG{n+nn}{com.icsd16191.bdgka\PYGZus{}app\PYGZus{}client.messages}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.ArrayList}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.List}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.Map}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.Set}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.UUID}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.springframework.jms.annotation.JmsListener}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.springframework.stereotype.Component}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{com.icsd16191.bdgka\PYGZus{}app\PYGZus{}client.configuration.IdentityService}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{com.icsd16191.bdgka\PYGZus{}app\PYGZus{}client.crypto.CryptoService}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{com.icsd16191.bdgka\PYGZus{}app\PYGZus{}client.entities.Block}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{com.icsd16191.bdgka\PYGZus{}app\PYGZus{}client.services.InMemoryKeyStoreService}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{com.icsd16191.bdgka\PYGZus{}app\PYGZus{}client.services.ProtocolService}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{com.icsd16191.bdgka\PYGZus{}app\PYGZus{}client.web\PYGZus{}client.BdgkaClient}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{lombok.AllArgsConstructor}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{tools.jackson.core.type.TypeReference}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{tools.jackson.databind.ObjectMapper}\PYG{p}{;}
+
+\PYG{n+nd}{@Component}
+\PYG{n+nd}{@AllArgsConstructor}
+\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kd}{class} \PYG{n+nc}{MessageListener}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{ObjectMapper}\PYG{+w}{ }\PYG{n}{mapper}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{ProtocolService}\PYG{+w}{ }\PYG{n}{protocolService}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{InMemoryKeyStoreService}\PYG{+w}{ }\PYG{n}{keyStoreService}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{IdentityService}\PYG{p}{.}\PYG{n+na}{Identity}\PYG{+w}{ }\PYG{n}{identity}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{CryptoService}\PYG{+w}{ }\PYG{n}{cryptoService}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{MessageProducer}\PYG{+w}{ }\PYG{n}{messageProducer}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{BdgkaClient}\PYG{+w}{ }\PYG{n}{blockchainClient}\PYG{p}{;}
+
+\PYG{+w}{  }\PYG{n+nd}{@JmsListener}\PYG{p}{(}\PYG{n}{destination}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}blockchain\PYGZhy{}topic\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{containerFactory}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}durableTopicListenerFactory\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{receiveMessage}\PYG{p}{(}\PYG{n}{String}\PYG{+w}{ }\PYG{n}{message}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{msg}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{mapper}\PYG{p}{.}\PYG{n+na}{readValue}\PYG{p}{(}\PYG{n}{message}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Message}\PYG{p}{.}\PYG{n+na}{class}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{switch}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{msg}\PYG{p}{.}\PYG{n+na}{getOperation}\PYG{p}{())}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}START\PYGZdq{}}\PYG{p}{:}
+\PYG{+w}{          }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{protocolService}\PYG{p}{.}\PYG{n+na}{generateAndBroadcastPublicKey}\PYG{p}{();}
+\PYG{+w}{          }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{Exception}\PYG{+w}{ }\PYG{n}{e}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{e}\PYG{p}{.}\PYG{n+na}{printStackTrace}\PYG{p}{();}
+\PYG{+w}{          }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{          }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}PARTICIPANTS\PYGZdq{}}\PYG{p}{:}
+\PYG{+w}{          }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{participants}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{mapper}\PYG{p}{.}\PYG{n+na}{readValue}\PYG{p}{(}\PYG{n}{msg}\PYG{p}{.}\PYG{n+na}{getPayload}\PYG{p}{(),}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{TypeReference}\PYG{o}{\PYGZlt{}}\PYG{n}{Set}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}\PYGZgt{}}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{p}{\PYGZcb{}).}\PYG{n+na}{stream}\PYG{p}{().}\PYG{n+na}{toList}\PYG{p}{();}
+\PYG{+w}{          }\PYG{n}{protocolService}\PYG{p}{.}\PYG{n+na}{resolveParticipantsAndSaveNextPrevious}\PYG{p}{(}\PYG{n}{participants}\PYG{p}{);}
+\PYG{+w}{          }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}ORDER\PYGZbs{}n\PYGZbs{}t\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}
+\PYG{+w}{              }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getPrevious}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}\PYGZhy{}\PYGZgt{}(current)\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}
+\PYG{+w}{              }\PYG{n}{identity}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}\PYGZhy{}\PYGZgt{}\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}
+\PYG{+w}{              }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getNext}\PYG{p}{());}
+
+\PYG{+w}{          }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}INITIAL\PYGZus{}PK\PYGZus{}BROADCAST\PYGZdq{}}\PYG{p}{:}
+\PYG{+w}{          }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{next}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getNext}\PYG{p}{();}
+\PYG{+w}{          }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{previous}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getPrevious}\PYG{p}{();}
+\PYG{+w}{          }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{next}\PYG{p}{.}\PYG{n+na}{equals}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZlt{}None\PYGZgt{}\PYGZdq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{next}\PYG{p}{.}\PYG{n+na}{equals}\PYG{p}{(}\PYG{n}{msg}\PYG{p}{.}\PYG{n+na}{getFrom}\PYG{p}{()))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getPublicKeys}\PYG{p}{().}\PYG{n+na}{put}\PYG{p}{(}
+\PYG{+w}{                }\PYG{n}{next}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n}{cryptoService}\PYG{p}{.}\PYG{n+na}{elementFromBase64}\PYG{p}{(}\PYG{n}{msg}\PYG{p}{.}\PYG{n+na}{getPayload}\PYG{p}{()));}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{previous}\PYG{p}{.}\PYG{n+na}{equals}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZlt{}None\PYGZgt{}\PYGZdq{}}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{              }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getMi\PYGZus{}public}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                  }\PYG{n}{cryptoService}\PYG{p}{.}\PYG{n+na}{generateMiKeys}\PYG{p}{();}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{ms}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{ArrayList}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{p}{();}
+\PYG{+w}{                }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{block}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{cryptoService}\PYG{p}{.}\PYG{n+na}{createBlock}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}U\PYGZhy{}Block\PYGZhy{}\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{UUID}\PYG{p}{.}\PYG{n+na}{randomUUID}\PYG{p}{().}\PYG{n+na}{toString}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{ms}\PYG{p}{);}
+
+\PYG{+w}{                }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}produced \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{());}
+
+\PYG{+w}{                }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{msgParams}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{cryptoService}\PYG{p}{.}\PYG{n+na}{produceMessageParametersFromBlock}\PYG{p}{(}\PYG{n}{block}\PYG{p}{);}
+\PYG{+w}{                }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{blockchainClient}\PYG{p}{.}\PYG{n+na}{append}\PYG{p}{(}\PYG{n}{block}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}blockchain network \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{.}\PYG{n+na}{block}\PYG{p}{());}
+
+\PYG{+w}{                }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{messageToSend}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Message}\PYG{p}{();}
+\PYG{+w}{                }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setFrom}\PYG{p}{(}\PYG{n}{identity}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{());}
+\PYG{+w}{                }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setForWho}\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getNext}\PYG{p}{());}
+\PYG{+w}{                }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setOperation}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}GK\PYGZhy{}COMPUTATION\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setPayload}\PYG{p}{(}\PYG{n}{mapper}\PYG{p}{.}\PYG{n+na}{writeValueAsString}\PYG{p}{(}\PYG{n}{msgParams}\PYG{p}{));}
+\PYG{+w}{                }\PYG{n}{messageProducer}\PYG{p}{.}\PYG{n+na}{sendMessage}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}blockchain\PYGZhy{}topic\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{messageToSend}\PYG{p}{);}
+
+\PYG{+w}{              }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{Exception}\PYG{+w}{ }\PYG{n}{e}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{e}\PYG{p}{.}\PYG{n+na}{printStackTrace}\PYG{p}{();}
+\PYG{+w}{              }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{          }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{          }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{previous}\PYG{p}{.}\PYG{n+na}{equals}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZlt{}None\PYGZgt{}\PYGZdq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{previous}\PYG{p}{.}\PYG{n+na}{equals}\PYG{p}{(}\PYG{n}{msg}\PYG{p}{.}\PYG{n+na}{getFrom}\PYG{p}{()))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getPublicKeys}\PYG{p}{().}\PYG{n+na}{put}\PYG{p}{(}
+\PYG{+w}{                }\PYG{n}{previous}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n}{cryptoService}\PYG{p}{.}\PYG{n+na}{elementFromBase64}\PYG{p}{(}\PYG{n}{msg}\PYG{p}{.}\PYG{n+na}{getPayload}\PYG{p}{()));}
+\PYG{+w}{          }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{          }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}GK\PYGZhy{}COMPUTATION\PYGZdq{}}\PYG{p}{:}
+\PYG{+w}{          }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{msg}\PYG{p}{.}\PYG{n+na}{getForWho}\PYG{p}{().}\PYG{n+na}{equals}\PYG{p}{(}\PYG{n}{identity}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{()))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{CryptographicMessageParameters}\PYG{+w}{ }\PYG{n}{params}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{mapper}\PYG{p}{.}\PYG{n+na}{readValue}\PYG{p}{(}\PYG{n}{msg}\PYG{p}{.}\PYG{n+na}{getPayload}\PYG{p}{(),}
+\PYG{+w}{                }\PYG{n}{CryptographicMessageParameters}\PYG{p}{.}\PYG{n+na}{class}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{lastBlockResponse}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{blockchainClient}\PYG{p}{.}\PYG{n+na}{current}\PYG{p}{().}\PYG{n+na}{block}\PYG{p}{();}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{lastBlockResponse}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}result\PYGZdq{}}\PYG{p}{).}\PYG{n+na}{equals}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}OK\PYGZdq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{params}\PYG{p}{.}\PYG{n+na}{getIp}\PYG{p}{().}\PYG{n+na}{equals}\PYG{p}{(}\PYG{n}{identity}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{()))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+
+\PYG{+w}{              }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getMi\PYGZus{}public}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}generating Mi keys\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n}{cryptoService}\PYG{p}{.}\PYG{n+na}{generateMiKeys}\PYG{p}{();}
+\PYG{+w}{              }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{              }\PYG{n}{Block}\PYG{+w}{ }\PYG{n}{currentBlock}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{mapper}\PYG{p}{.}\PYG{n+na}{readValue}\PYG{p}{(}\PYG{n}{mapper}\PYG{p}{.}\PYG{n+na}{writeValueAsString}\PYG{p}{(}\PYG{n}{lastBlockResponse}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}data\PYGZdq{}}\PYG{p}{)),}
+\PYG{+w}{                  }\PYG{n}{Block}\PYG{p}{.}\PYG{n+na}{class}\PYG{p}{);}
+\PYG{+w}{              }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}read \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{currentBlock}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{());}
+
+\PYG{+w}{              }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{cryptoService}\PYG{p}{.}\PYG{n+na}{verifyUser}\PYG{p}{(}\PYG{n}{currentBlock}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{params}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+
+\PYG{+w}{                }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{ms}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{currentBlock}\PYG{p}{.}\PYG{n+na}{getMs}\PYG{p}{();}
+\PYG{+w}{                }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getNext}\PYG{p}{().}\PYG{n+na}{equals}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZlt{}None\PYGZgt{}\PYGZdq{}}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                  }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{block}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{cryptoService}\PYG{p}{.}\PYG{n+na}{createBlock}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}CONTRIBUTE\PYGZhy{}Block\PYGZhy{}\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{UUID}\PYG{p}{.}\PYG{n+na}{randomUUID}\PYG{p}{().}\PYG{n+na}{toString}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{ms}\PYG{p}{);}
+\PYG{+w}{                  }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{blockchainClient}\PYG{p}{.}\PYG{n+na}{append}\PYG{p}{(}\PYG{n}{block}\PYG{p}{).}\PYG{n+na}{block}\PYG{p}{();}
+\PYG{+w}{                  }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}blockchain\PYGZhy{}network \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}\PYGZbs{}n\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{} produced\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{                  }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{msgParams}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{cryptoService}\PYG{p}{.}\PYG{n+na}{produceMessageParametersFromBlock}\PYG{p}{(}\PYG{n}{block}\PYG{p}{);}
+\PYG{+w}{                  }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{messageToSend}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Message}\PYG{p}{();}
+\PYG{+w}{                  }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setFrom}\PYG{p}{(}\PYG{n}{identity}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{());}
+\PYG{+w}{                  }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setForWho}\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getNext}\PYG{p}{());}
+\PYG{+w}{                  }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setOperation}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}GK\PYGZhy{}COMPUTATION\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                  }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setPayload}\PYG{p}{(}\PYG{n}{mapper}\PYG{p}{.}\PYG{n+na}{writeValueAsString}\PYG{p}{(}\PYG{n}{msgParams}\PYG{p}{));}
+\PYG{+w}{                  }\PYG{n}{messageProducer}\PYG{p}{.}\PYG{n+na}{sendMessage}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}blockchain\PYGZhy{}topic\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{messageToSend}\PYG{p}{);}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                  }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{block}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{cryptoService}\PYG{p}{.}\PYG{n+na}{createBlock}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}CONTRIBUTE\PYGZhy{}Last\PYGZhy{}Block\PYGZhy{}\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{UUID}\PYG{p}{.}\PYG{n+na}{randomUUID}\PYG{p}{().}\PYG{n+na}{toString}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{ms}\PYG{p}{);}
+
+\PYG{+w}{                  }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{fs}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{cryptoService}\PYG{p}{.}\PYG{n+na}{computeFsListAndGkForUn}\PYG{p}{(}\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getMs}\PYG{p}{());}
+\PYG{+w}{                  }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{setHeader}\PYG{p}{(}\PYG{n}{cryptoService}\PYG{p}{.}\PYG{n+na}{h1Gk}\PYG{p}{());}
+\PYG{+w}{                  }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{blockchainClient}\PYG{p}{.}\PYG{n+na}{append}\PYG{p}{(}\PYG{n}{block}\PYG{p}{).}\PYG{n+na}{block}\PYG{p}{();}
+\PYG{+w}{                  }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}blockchain\PYGZhy{}network final \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{);}
+\PYG{+w}{                  }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{messageToSend}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Message}\PYG{p}{();}
+
+\PYG{+w}{                  }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setFrom}\PYG{p}{(}\PYG{n}{identity}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{());}
+\PYG{+w}{                  }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setForWho}\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getPrevious}\PYG{p}{());}
+\PYG{+w}{                  }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setOperation}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}GK\PYGZhy{}FINAL\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                  }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setPayload}\PYG{p}{(}\PYG{n}{mapper}\PYG{p}{.}\PYG{n+na}{writeValueAsString}\PYG{p}{(}\PYG{n}{Map}\PYG{p}{.}\PYG{n+na}{of}\PYG{p}{(}
+\PYG{+w}{                      }\PYG{l+s}{\PYGZdq{}fs\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}index\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)));}
+
+\PYG{+w}{                  }\PYG{n}{messageProducer}\PYG{p}{.}\PYG{n+na}{sendMessage}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}blockchain\PYGZhy{}topic\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{messageToSend}\PYG{p}{);}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}user \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{identity}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{} not verifying previous\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{              }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{              }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}reading block from blockchain error\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{          }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{          }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}GK\PYGZhy{}FINAL\PYGZdq{}}\PYG{p}{:}
+\PYG{+w}{          }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{msg}\PYG{p}{.}\PYG{n+na}{getForWho}\PYG{p}{().}\PYG{n+na}{equals}\PYG{p}{(}\PYG{n}{identity}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{()))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}GK\PYGZhy{}FINAL \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{identity}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{());}
+\PYG{+w}{            }\PYG{n}{Map}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Object}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{fsAndIndex}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{mapper}\PYG{p}{.}\PYG{n+na}{readValue}\PYG{p}{(}\PYG{n}{msg}\PYG{p}{.}\PYG{n+na}{getPayload}\PYG{p}{(),}
+\PYG{+w}{                }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{TypeReference}\PYG{o}{\PYGZlt{}}\PYG{n}{Map}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Object}\PYG{o}{\PYGZgt{}\PYGZgt{}}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{            }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{              }\PYG{n}{fs}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{fsAndIndex}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}fs\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{              }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{index}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{Integer}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{fsAndIndex}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}index\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{              }\PYG{n}{cryptoService}\PYG{p}{.}\PYG{n+na}{computeGkForUi}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{index}\PYG{p}{);}
+
+\PYG{+w}{              }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{lastBlockResponse}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{blockchainClient}\PYG{p}{.}\PYG{n+na}{current}\PYG{p}{().}\PYG{n+na}{block}\PYG{p}{();}
+\PYG{+w}{              }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{lastBlockResponse}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}result\PYGZdq{}}\PYG{p}{).}\PYG{n+na}{equals}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}OK\PYGZdq{}}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{Block}\PYG{+w}{ }\PYG{n}{currentBlock}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{mapper}\PYG{p}{.}\PYG{n+na}{readValue}\PYG{p}{(}\PYG{n}{mapper}\PYG{p}{.}\PYG{n+na}{writeValueAsString}\PYG{p}{(}\PYG{n}{lastBlockResponse}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}data\PYGZdq{}}\PYG{p}{)),}
+\PYG{+w}{                    }\PYG{n}{Block}\PYG{p}{.}\PYG{n+na}{class}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}read \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{currentBlock}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{());}
+\PYG{+w}{              }\PYG{k}{if}\PYG{p}{(}\PYG{n}{cryptoService}\PYG{p}{.}\PYG{n+na}{h1VerifyGk}\PYG{p}{(}\PYG{n}{currentBlock}\PYG{p}{.}\PYG{n+na}{getHeader}\PYG{p}{()))\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}group key is ok\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{              }\PYG{p}{\PYGZcb{}}\PYG{k}{else}\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}group key not verified\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{              }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{              }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{messageToSend}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Message}\PYG{p}{();}
+\PYG{+w}{              }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getPrevious}\PYG{p}{().}\PYG{n+na}{equals}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZlt{}None\PYGZgt{}\PYGZdq{}}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setFrom}\PYG{p}{(}\PYG{n}{identity}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{());}
+\PYG{+w}{                }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setForWho}\PYG{p}{(}\PYG{n}{keyStoreService}\PYG{p}{.}\PYG{n+na}{getPrevious}\PYG{p}{());}
+\PYG{+w}{                }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setOperation}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}GK\PYGZhy{}FINAL\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n}{messageToSend}\PYG{p}{.}\PYG{n+na}{setPayload}\PYG{p}{(}\PYG{n}{mapper}\PYG{p}{.}\PYG{n+na}{writeValueAsString}\PYG{p}{(}\PYG{n}{Map}\PYG{p}{.}\PYG{n+na}{of}\PYG{p}{(}
+\PYG{+w}{                    }\PYG{l+s}{\PYGZdq{}fs\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}index\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{index}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)));}
+\PYG{+w}{                }\PYG{n}{messageProducer}\PYG{p}{.}\PYG{n+na}{sendMessage}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}blockchain\PYGZhy{}topic\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{messageToSend}\PYG{p}{);}
+\PYG{+w}{              }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{Exception}\PYG{+w}{ }\PYG{n}{e}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{              }\PYG{n}{e}\PYG{p}{.}\PYG{n+na}{printStackTrace}\PYG{p}{();}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{          }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{          }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{Exception}\PYG{+w}{ }\PYG{n}{e}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n}{e}\PYG{p}{.}\PYG{n+na}{printStackTrace}\PYG{p}{();}
+\PYG{+w}{      }\PYG{k}{throw}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{RuntimeException}\PYG{p}{(}\PYG{n}{e}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{\PYGZcb{}}
+
+\PYG{o}{\PYGZca{}\PYGZca{}}\PYG{n}{I}
+\end{Verbatim}

@@ -1,0 +1,43 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{n+nd}{@Service}
+\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kd}{class} \PYG{n+nc}{ChaincodeService}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{BDGKARepository}\PYG{+w}{ }\PYG{n}{repo}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n+nf}{ChaincodeService}\PYG{p}{(}\PYG{n}{BDGKARepository}\PYG{+w}{ }\PYG{n}{repo}\PYG{p}{)\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{repo}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{repo}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{Block}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n+nf}{getAllBlocks}\PYG{p}{()}\PYG{+w}{ }\PYG{k+kd}{throws}\PYG{+w}{ }\PYG{n}{Exception}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{bytes}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{repo}\PYG{p}{.}\PYG{n+na}{getContract}\PYG{p}{().}\PYG{n+na}{evaluateTransaction}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}GetAllBlocks\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{mapper}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{ObjectMapper}\PYG{p}{();}
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{mapper}\PYG{p}{.}\PYG{n+na}{readValue}\PYG{p}{(}\PYG{n}{bytes}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{TypeReference}\PYG{o}{\PYGZlt{}}\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{Block}\PYG{o}{\PYGZgt{}\PYGZgt{}}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{});}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n+nf}{appendBlock}\PYG{p}{(}\PYG{n}{Block}\PYG{+w}{ }\PYG{n}{block}\PYG{p}{)}\PYG{+w}{ }\PYG{k+kd}{throws}\PYG{+w}{ }\PYG{n}{Exception}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{ObjectMapper}\PYG{+w}{ }\PYG{n}{mapper}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{ObjectMapper}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getMs}\PYG{p}{());}
+
+\PYG{+w}{        }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{msJson}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{mapper}\PYG{p}{.}\PYG{n+na}{writeValueAsString}\PYG{p}{(}\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getMs}\PYG{p}{());}
+
+\PYG{+w}{        }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}msJson \PYGZdq{}}\PYG{o}{+}\PYG{n}{msJson}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{n}{block}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{repo}\PYG{p}{.}\PYG{n+na}{getContract}\PYG{p}{().}\PYG{n+na}{submitTransaction}\PYG{p}{(}
+\PYG{+w}{                }\PYG{l+s}{\PYGZdq{}AppendBlock\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getId}\PYG{p}{(),}
+\PYG{+w}{                }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getHeader}\PYG{p}{(),}
+\PYG{+w}{                }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getNextIp}\PYG{p}{(),}
+\PYG{+w}{                }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getHi2}\PYG{p}{(),}
+\PYG{+w}{                }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getPk}\PYG{p}{(),}
+\PYG{+w}{                }\PYG{n}{msJson}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n}{block}\PYG{p}{.}\PYG{n+na}{getSignature}\PYG{p}{()}
+\PYG{+w}{        }\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}OK\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Block}\PYG{+w}{ }\PYG{n+nf}{readBlock}\PYG{p}{(}\PYG{n}{String}\PYG{+w}{ }\PYG{n}{id}\PYG{p}{)}\PYG{+w}{ }\PYG{k+kd}{throws}\PYG{+w}{ }\PYG{n}{Exception}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{bytes}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{repo}\PYG{p}{.}\PYG{n+na}{getContract}\PYG{p}{().}\PYG{n+na}{evaluateTransaction}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}ReadBlock\PYGZdq{}}\PYG{p}{,}\PYG{n}{id}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{ObjectMapper}\PYG{p}{().}\PYG{n+na}{readValue}\PYG{p}{(}\PYG{n}{bytes}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{TypeReference}\PYG{o}{\PYGZlt{}}\PYG{n}{Block}\PYG{o}{\PYGZgt{}}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{});}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Block}\PYG{+w}{ }\PYG{n+nf}{getCurrent}\PYG{p}{()}\PYG{+w}{ }\PYG{k+kd}{throws}\PYG{+w}{ }\PYG{n}{Exception}\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{bytes}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{repo}\PYG{p}{.}\PYG{n+na}{getContract}\PYG{p}{().}\PYG{n+na}{evaluateTransaction}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}ReadCurrentBlock\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{ObjectMapper}\PYG{p}{().}\PYG{n+na}{readValue}\PYG{p}{(}\PYG{n}{bytes}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{TypeReference}\PYG{o}{\PYGZlt{}}\PYG{n}{Block}\PYG{o}{\PYGZgt{}}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{});}
+
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

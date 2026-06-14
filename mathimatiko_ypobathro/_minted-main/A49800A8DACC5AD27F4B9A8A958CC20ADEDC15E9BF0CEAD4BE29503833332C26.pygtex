@@ -1,0 +1,101 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kd}{class} \PYG{n+nc}{BDGKARepository}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{mspId}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Org1MSP\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{channelName}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}mychannel\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{chaincodeName}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}bdgka\PYGZus{}chaincode\PYGZdq{}}\PYG{p}{;}
+
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{n}{Path}\PYG{+w}{ }\PYG{n}{cryptoRootDir}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Paths}
+\PYG{+w}{      }\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}../../fabric\PYGZhy{}samples/test\PYGZhy{}network/organizations/peerOrganizations/org1.example.com\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{n}{Path}\PYG{+w}{ }\PYG{n}{certDirPath}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{cryptoRootDir}\PYG{p}{.}\PYG{n+na}{resolve}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}users/User1@org1.example.com/msp/signcerts\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{n}{Path}\PYG{+w}{ }\PYG{n}{keyDirPath}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{cryptoRootDir}\PYG{p}{.}\PYG{n+na}{resolve}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}users/User1@org1.example.com/msp/keystore\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{n}{Path}\PYG{+w}{ }\PYG{n}{tlsCertPath}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{cryptoRootDir}\PYG{p}{.}\PYG{n+na}{resolve}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}peers/peer0.org1.example.com/tls/ca.crt\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{n}{Gateway}\PYG{+w}{ }\PYG{n}{gateway}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{n}{Network}\PYG{+w}{ }\PYG{n}{network}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{n}{Contract}\PYG{+w}{ }\PYG{n}{contract}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n+nf}{BDGKARepository}\PYG{p}{()}\PYG{+w}{ }\PYG{k+kd}{throws}\PYG{+w}{ }\PYG{n}{Exception}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{channel}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{connect}\PYG{p}{();}
+
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{builder}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Gateway}\PYG{p}{.}\PYG{n+na}{newInstance}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{builder}\PYG{p}{.}\PYG{n+na}{identity}\PYG{p}{(}\PYG{n}{newIdentity}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{builder}\PYG{p}{.}\PYG{n+na}{signer}\PYG{p}{(}\PYG{n}{newSigner}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{builder}\PYG{p}{.}\PYG{n+na}{hash}\PYG{p}{(}\PYG{n}{Hash}\PYG{p}{::}\PYG{n}{sha256}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{builder}\PYG{p}{.}\PYG{n+na}{connection}\PYG{p}{(}\PYG{n}{channel}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{gateway}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{builder}\PYG{p}{.}\PYG{n+na}{connect}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{network}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{gateway}\PYG{p}{.}\PYG{n+na}{getNetwork}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{channelName}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{contract}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{network}\PYG{p}{.}\PYG{n+na}{getContract}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{chaincodeName}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n+nf}{getMspId}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{o}{\PYGZca{}\PYGZca{}}\PYG{n}{Ireturn}\PYG{+w}{ }\PYG{n}{mspId}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n+nf}{getChannelName}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{o}{\PYGZca{}\PYGZca{}}\PYG{n}{Ireturn}\PYG{+w}{ }\PYG{n}{channelName}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n+nf}{getChaincodeName}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{o}{\PYGZca{}\PYGZca{}}\PYG{n}{Ireturn}\PYG{+w}{ }\PYG{n}{chaincodeName}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Path}\PYG{+w}{ }\PYG{n+nf}{getCryptoRootDir}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{o}{\PYGZca{}\PYGZca{}}\PYG{n}{Ireturn}\PYG{+w}{ }\PYG{n}{cryptoRootDir}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Path}\PYG{+w}{ }\PYG{n+nf}{getCertDirPath}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{o}{\PYGZca{}\PYGZca{}}\PYG{n}{Ireturn}\PYG{+w}{ }\PYG{n}{certDirPath}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Path}\PYG{+w}{ }\PYG{n+nf}{getKeyDirPath}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{o}{\PYGZca{}\PYGZca{}}\PYG{n}{Ireturn}\PYG{+w}{ }\PYG{n}{keyDirPath}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Path}\PYG{+w}{ }\PYG{n+nf}{getTlsCertPath}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{o}{\PYGZca{}\PYGZca{}}\PYG{n}{Ireturn}\PYG{+w}{ }\PYG{n}{tlsCertPath}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Gateway}\PYG{+w}{ }\PYG{n+nf}{getGateway}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{o}{\PYGZca{}\PYGZca{}}\PYG{n}{Ireturn}\PYG{+w}{ }\PYG{n}{gateway}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Network}\PYG{+w}{ }\PYG{n+nf}{getNetwork}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{o}{\PYGZca{}\PYGZca{}}\PYG{n}{Ireturn}\PYG{+w}{ }\PYG{n}{network}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Contract}\PYG{+w}{ }\PYG{n+nf}{getContract}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{o}{\PYGZca{}\PYGZca{}}\PYG{n}{Ireturn}\PYG{+w}{ }\PYG{n}{contract}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{n+nd}{@PreDestroy}
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{close}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{gateway}\PYG{p}{.}\PYG{n+na}{close}\PYG{p}{();}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{ManagedChannel}\PYG{+w}{ }\PYG{n+nf}{connect}\PYG{p}{()}\PYG{+w}{ }\PYG{k+kd}{throws}\PYG{+w}{ }\PYG{n}{IOException}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{creds}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{TlsChannelCredentials}\PYG{p}{.}\PYG{n+na}{newBuilder}\PYG{p}{()}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+na}{trustManager}\PYG{p}{(}\PYG{n}{tlsCertPath}\PYG{p}{.}\PYG{n+na}{toFile}\PYG{p}{())}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+na}{build}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{Grpc}\PYG{p}{.}\PYG{n+na}{newChannelBuilder}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}localhost:7051\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{creds}\PYG{p}{)}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+na}{overrideAuthority}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}peer0.org1.example.com\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+na}{build}\PYG{p}{();}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{Identity}\PYG{+w}{ }\PYG{n+nf}{newIdentity}\PYG{p}{()}\PYG{+w}{ }\PYG{k+kd}{throws}\PYG{+w}{ }\PYG{n}{Exception}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{certReader}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Files}\PYG{p}{.}\PYG{n+na}{newBufferedReader}\PYG{p}{(}\PYG{n}{getFirstFilePath}\PYG{p}{(}\PYG{n}{certDirPath}\PYG{p}{)))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{cert}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Identities}\PYG{p}{.}\PYG{n+na}{readX509Certificate}\PYG{p}{(}\PYG{n}{certReader}\PYG{p}{);}
+\PYG{+w}{      }\PYG{k}{return}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{X509Identity}\PYG{p}{(}\PYG{n}{mspId}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{cert}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{Path}\PYG{+w}{ }\PYG{n+nf}{getFirstFilePath}\PYG{p}{(}\PYG{n}{Path}\PYG{+w}{ }\PYG{n}{dirPath}\PYG{p}{)}\PYG{+w}{ }\PYG{k+kd}{throws}\PYG{+w}{ }\PYG{n}{Exception}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{keyFiles}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Files}\PYG{p}{.}\PYG{n+na}{list}\PYG{p}{(}\PYG{n}{dirPath}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{keyFiles}\PYG{p}{.}\PYG{n+na}{findFirst}\PYG{p}{().}\PYG{n+na}{orElseThrow}\PYG{p}{();}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{Signer}\PYG{+w}{ }\PYG{n+nf}{newSigner}\PYG{p}{()}\PYG{+w}{ }\PYG{k+kd}{throws}\PYG{+w}{ }\PYG{n}{Exception}\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{try}\PYG{p}{(}\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{keyReader}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Files}\PYG{p}{.}\PYG{n+na}{newBufferedReader}\PYG{p}{(}\PYG{n}{getFirstFilePath}\PYG{p}{(}\PYG{n}{keyDirPath}\PYG{p}{)))\PYGZob{}}
+\PYG{+w}{      }\PYG{k+kd}{var}\PYG{+w}{ }\PYG{n}{privateKey}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Identities}\PYG{p}{.}\PYG{n+na}{readPrivateKey}\PYG{p}{(}\PYG{n}{keyReader}\PYG{p}{);}
+\PYG{+w}{      }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{Signers}\PYG{p}{.}\PYG{n+na}{newPrivateKeySigner}\PYG{p}{(}\PYG{n}{privateKey}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

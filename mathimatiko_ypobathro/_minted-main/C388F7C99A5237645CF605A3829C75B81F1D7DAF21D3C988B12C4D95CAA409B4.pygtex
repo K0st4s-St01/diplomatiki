@@ -1,0 +1,179 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package}\PYG{+w}{ }\PYG{n+nx}{main}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{p}{(}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{l+s}{\PYGZdq{}crypto/sha256\PYGZdq{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{l+s}{\PYGZdq{}encoding/hex\PYGZdq{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{l+s}{\PYGZdq{}encoding/json\PYGZdq{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{l+s}{\PYGZdq{}fmt\PYGZdq{}}
+
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{l+s}{\PYGZdq{}github.com/hyperledger/fabric\PYGZhy{}contract\PYGZhy{}api\PYGZhy{}go/contractapi\PYGZdq{}}
+\PYG{p}{)}
+
+\PYG{k+kd}{type}\PYG{+w}{ }\PYG{n+nx}{Block}\PYG{+w}{ }\PYG{k+kd}{struct}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IID}\PYG{+w}{          }\PYG{k+kt}{string}\PYG{+w}{   }\PYG{l+s}{`json:\PYGZdq{}id\PYGZdq{}`}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IHeader}\PYG{+w}{      }\PYG{k+kt}{string}\PYG{+w}{   }\PYG{l+s}{`json:\PYGZdq{}header\PYGZdq{}`}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{INextIP}\PYG{+w}{      }\PYG{k+kt}{string}\PYG{+w}{   }\PYG{l+s}{`json:\PYGZdq{}nextIp\PYGZdq{}`}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IHi2}\PYG{+w}{         }\PYG{k+kt}{string}\PYG{+w}{   }\PYG{l+s}{`json:\PYGZdq{}hi2\PYGZdq{}`}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IPK}\PYG{+w}{          }\PYG{k+kt}{string}\PYG{+w}{   }\PYG{l+s}{`json:\PYGZdq{}pk\PYGZdq{}`}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IMs}\PYG{+w}{          }\PYG{p}{[]}\PYG{k+kt}{string}\PYG{+w}{   }\PYG{l+s}{`json:\PYGZdq{}ms\PYGZdq{}`}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{ISignature}\PYG{+w}{   }\PYG{k+kt}{string}\PYG{+w}{   }\PYG{l+s}{`json:\PYGZdq{}signature\PYGZdq{}`}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{ITimestamp}\PYG{+w}{   }\PYG{k+kt}{int64}\PYG{+w}{    }\PYG{l+s}{`json:\PYGZdq{}timestamp\PYGZdq{}`}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IPrevHash}\PYG{+w}{    }\PYG{k+kt}{string}\PYG{+w}{   }\PYG{l+s}{`json:\PYGZdq{}prevHash\PYGZdq{}`}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{ICurrentHash}\PYG{+w}{ }\PYG{k+kt}{string}\PYG{+w}{   }\PYG{l+s}{`json:\PYGZdq{}currentHash\PYGZdq{}`}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{type}\PYG{+w}{ }\PYG{n+nx}{BDGKAContract}\PYG{+w}{ }\PYG{k+kd}{struct}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Icontractapi}\PYG{p}{.}\PYG{n+nx}{Contract}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{func}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{block}\PYG{+w}{ }\PYG{o}{*}\PYG{n+nx}{Block}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{hash}\PYG{p}{()}\PYG{+w}{ }\PYG{k+kt}{error}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{ItempBlock}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{o}{*}\PYG{n+nx}{block}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{ItempBlock}\PYG{p}{.}\PYG{n+nx}{CurrentHash}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}\PYGZdq{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{ItempBlockBytes}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{json}\PYG{p}{.}\PYG{n+nx}{Marshal}\PYG{p}{(}\PYG{n+nx}{tempBlock}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}failed to marshal block: \PYGZpc{}v\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ihash\PYGZus{}bytes}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{sha256}\PYG{p}{.}\PYG{n+nx}{Sum256}\PYG{p}{(}\PYG{n+nx}{tempBlockBytes}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iblock}\PYG{p}{.}\PYG{n+nx}{CurrentHash}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nx}{hex}\PYG{p}{.}\PYG{n+nx}{EncodeToString}\PYG{p}{(}\PYG{n+nx}{hash\PYGZus{}bytes}\PYG{p}{[:])}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{k+kc}{nil}
+\PYG{p}{\PYGZcb{}}
+\PYG{k+kd}{func}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{contract}\PYG{+w}{ }\PYG{o}{*}\PYG{n+nx}{BDGKAContract}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{AppendBlock}\PYG{p}{(}\PYG{n+nx}{ctx}\PYG{+w}{ }\PYG{n+nx}{contractapi}\PYG{p}{.}\PYG{n+nx}{TransactionContextInterface}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iid}\PYG{+w}{ }\PYG{k+kt}{string}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iheader}\PYG{+w}{ }\PYG{k+kt}{string}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{InextIP}\PYG{+w}{ }\PYG{k+kt}{string}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ihi2}\PYG{+w}{ }\PYG{k+kt}{string}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ipk}\PYG{+w}{ }\PYG{k+kt}{string}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{ImsJson}\PYG{+w}{ }\PYG{k+kt}{string}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Isignature}\PYG{+w}{ }\PYG{k+kt}{string}\PYG{p}{,}
+\PYG{p}{)}\PYG{+w}{ }\PYG{k+kt}{error}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ivar}\PYG{+w}{ }\PYG{n+nx}{ms}\PYG{+w}{ }\PYG{p}{[]}\PYG{k+kt}{string}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ierr}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{json}\PYG{p}{.}\PYG{n+nx}{Unmarshal}\PYG{p}{([]}\PYG{n+nb}{byte}\PYG{p}{(}\PYG{n+nx}{msJson}\PYG{p}{),}\PYG{o}{\PYGZam{}}\PYG{n+nx}{ms}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}json cannot be turned to list\PYGZdq{}}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iexists}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{contract}\PYG{p}{.}\PYG{n+nx}{BlockExists}\PYG{p}{(}\PYG{n+nx}{ctx}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{id}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{n+nx}{err}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{exists}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}block \PYGZpc{}s already exists\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{id}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Itimestamp}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{GetStub}\PYG{p}{().}\PYG{n+nx}{GetTxTimestamp}\PYG{p}{()}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}timestamp error: \PYGZpc{}vs\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IprevBlockIdBytes}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{GetStub}\PYG{p}{().}\PYG{n+nx}{GetState}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}LAST\PYGZus{}BLOCK\PYGZdq{}}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}previous block error: \PYGZpc{}vs\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ivar}\PYG{+w}{ }\PYG{n+nx}{prevBlock}\PYG{+w}{ }\PYG{o}{*}\PYG{n+nx}{Block}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ivar}\PYG{+w}{ }\PYG{n+nx}{prevHash}\PYG{+w}{ }\PYG{k+kt}{string}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{prevBlockIdBytes}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IprevBlockId}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nb}{string}\PYG{p}{(}\PYG{n+nx}{prevBlockIdBytes}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IprevBlock}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nx}{contract}\PYG{p}{.}\PYG{n+nx}{ReadBlock}\PYG{p}{(}\PYG{n+nx}{ctx}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{prevBlockId}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}previous block error: \PYGZpc{}v\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IprevHash}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nx}{prevBlock}\PYG{p}{.}\PYG{n+nx}{CurrentHash}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IprevHash}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}GENESIS\PYGZdq{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iblock}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{Block}\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IID}\PYG{p}{:}\PYG{+w}{        }\PYG{n+nx}{id}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IHeader}\PYG{p}{:}\PYG{+w}{    }\PYG{n+nx}{header}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{INextIP}\PYG{p}{:}\PYG{+w}{    }\PYG{n+nx}{nextIP}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IHi2}\PYG{p}{:}\PYG{+w}{       }\PYG{n+nx}{hi2}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IPK}\PYG{p}{:}\PYG{+w}{        }\PYG{n+nx}{pk}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IMs}\PYG{p}{:}\PYG{+w}{        }\PYG{n+nx}{ms}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{ISignature}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nx}{signature}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{ITimestamp}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nx}{timestamp}\PYG{p}{.}\PYG{n+nx}{Seconds}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IPrevHash}\PYG{p}{:}\PYG{+w}{  }\PYG{n+nx}{prevHash}\PYG{p}{,}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ierr}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nx}{block}\PYG{p}{.}\PYG{n+nx}{hash}\PYG{p}{()}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}error calculating signature: \PYGZpc{}v\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Idata}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{json}\PYG{p}{.}\PYG{n+nx}{Marshal}\PYG{p}{(}\PYG{n+nx}{block}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}invalid Ms JSON: \PYGZpc{}v\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{GetStub}\PYG{p}{().}\PYG{n+nx}{PutState}\PYG{p}{(}\PYG{n+nx}{id}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{data}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}failed to put block state: \PYGZpc{}v\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{GetStub}\PYG{p}{().}\PYG{n+nx}{PutState}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}LAST\PYGZus{}BLOCK\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[]}\PYG{n+nb}{byte}\PYG{p}{(}\PYG{n+nx}{id}\PYG{p}{));}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}failed to update LAST\PYGZus{}BLOCK \PYGZpc{}v\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{k+kc}{nil}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{func}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{c}\PYG{+w}{ }\PYG{o}{*}\PYG{n+nx}{BDGKAContract}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{ReadBlock}\PYG{p}{(}\PYG{n+nx}{ctx}\PYG{+w}{ }\PYG{n+nx}{contractapi}\PYG{p}{.}\PYG{n+nx}{TransactionContextInterface}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{id}\PYG{+w}{ }\PYG{k+kt}{string}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{*}\PYG{n+nx}{Block}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{error}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Idata}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{GetStub}\PYG{p}{().}\PYG{n+nx}{GetState}\PYG{p}{(}\PYG{n+nx}{id}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}read: \PYGZpc{}v\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{data}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}block \PYGZpc{}s not found\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{id}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ivar}\PYG{+w}{ }\PYG{n+nx}{block}\PYG{+w}{ }\PYG{n+nx}{Block}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ierr}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nx}{json}\PYG{p}{.}\PYG{n+nx}{Unmarshal}\PYG{p}{(}\PYG{n+nx}{data}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n+nx}{block}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}unmarshal: \PYGZpc{}v\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n+nx}{block}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{nil}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{func}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{c}\PYG{+w}{ }\PYG{o}{*}\PYG{n+nx}{BDGKAContract}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{ReadCurrentBlock}\PYG{p}{(}\PYG{n+nx}{ctx}\PYG{+w}{ }\PYG{n+nx}{contractapi}\PYG{p}{.}\PYG{n+nx}{TransactionContextInterface}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{*}\PYG{n+nx}{Block}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{error}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IprevBlockIdBytes}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{GetStub}\PYG{p}{().}\PYG{n+nx}{GetState}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}LAST\PYGZus{}BLOCK\PYGZdq{}}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IprevBlockId}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nb}{string}\PYG{p}{(}\PYG{n+nx}{prevBlockIdBytes}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iblock}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{c}\PYG{p}{.}\PYG{n+nx}{ReadBlock}\PYG{p}{(}\PYG{n+nx}{ctx}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{prevBlockId}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{p}{,}\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}previous block error: \PYGZpc{}v\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{n+nx}{block}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{nil}
+\PYG{p}{\PYGZcb{}}
+\PYG{k+kd}{func}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{c}\PYG{+w}{ }\PYG{o}{*}\PYG{n+nx}{BDGKAContract}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{BlockExists}\PYG{p}{(}\PYG{n+nx}{ctx}\PYG{+w}{ }\PYG{n+nx}{contractapi}\PYG{p}{.}\PYG{n+nx}{TransactionContextInterface}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{id}\PYG{+w}{ }\PYG{k+kt}{string}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{bool}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{error}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Idata}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{GetStub}\PYG{p}{().}\PYG{n+nx}{GetState}\PYG{p}{(}\PYG{n+nx}{id}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{n+nx}{data}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{nil}
+\PYG{p}{\PYGZcb{}}
+\PYG{k+kd}{func}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{c}\PYG{+w}{ }\PYG{o}{*}\PYG{n+nx}{BDGKAContract}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{GetAllBlocks}\PYG{p}{(}\PYG{n+nx}{ctx}\PYG{+w}{ }\PYG{n+nx}{contractapi}\PYG{p}{.}\PYG{n+nx}{TransactionContextInterface}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{([]}\PYG{o}{*}\PYG{n+nx}{Block}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{error}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IresultsIterator}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{GetStub}\PYG{p}{().}\PYG{n+nx}{GetStateByRange}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}failed to get state by range: \PYGZpc{}v\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Idefer}\PYG{+w}{ }\PYG{n+nx}{resultsIterator}\PYG{p}{.}\PYG{n+nx}{Close}\PYG{p}{()}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ivar}\PYG{+w}{ }\PYG{n+nx}{blocks}\PYG{+w}{ }\PYG{p}{[]}\PYG{o}{*}\PYG{n+nx}{Block}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ifor}\PYG{+w}{ }\PYG{n+nx}{resultsIterator}\PYG{p}{.}\PYG{n+nx}{HasNext}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{IqueryResponse}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{resultsIterator}\PYG{p}{.}\PYG{n+nx}{Next}\PYG{p}{()}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}failed to iterate results: \PYGZpc{}v\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ikey}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{queryResponse}\PYG{p}{.}\PYG{n+nx}{Key}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{key}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}LAST\PYGZus{}BLOCK\PYGZdq{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Icontinue}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ivar}\PYG{+w}{ }\PYG{n+nx}{block}\PYG{+w}{ }\PYG{n+nx}{Block}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ierr}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nx}{json}\PYG{p}{.}\PYG{n+nx}{Unmarshal}\PYG{p}{(}\PYG{n+nx}{queryResponse}\PYG{p}{.}\PYG{n+nx}{Value}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n+nx}{block}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Errorf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}failed to unmarshal block: \PYGZpc{}v\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iblocks}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nb}{append}\PYG{p}{(}\PYG{n+nx}{blocks}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n+nx}{block}\PYG{p}{)}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ireturn}\PYG{+w}{ }\PYG{n+nx}{blocks}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{nil}
+\PYG{p}{\PYGZcb{}}
+\PYG{k+kd}{func}\PYG{+w}{ }\PYG{n+nx}{main}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Icc}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{contractapi}\PYG{p}{.}\PYG{n+nx}{NewChaincode}\PYG{p}{(}\PYG{n+nb}{new}\PYG{p}{(}\PYG{n+nx}{BDGKAContract}\PYG{p}{))}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ipanic}\PYG{p}{(}\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Sprintf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}initialization error: \PYGZpc{}v\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{))}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ierr}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nx}{cc}\PYG{p}{.}\PYG{n+nx}{Start}\PYG{p}{()}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Iif}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{Ipanic}\PYG{p}{(}\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Sprintf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}error starting chaincode: \PYGZpc{}v\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{))}
+\PYG{p}{\PYGZca{}\PYGZca{}}\PYG{n+nx}{I}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

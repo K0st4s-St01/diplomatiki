@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>4.0.1</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.icsd16191</groupId>
+	<artifactId>bdgka_app_client</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>bdgka_app_client</name>
+	<description>Client for bdgka app </description>
+	<url/>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+        <!-- <dependency> -->
+            <!-- <groupId>org.bouncycastle</groupId> -->
+            <!-- <artifactId>bcprov-jdk18on</artifactId> -->
+            <!-- <version>1.78</version> -->
+        <!-- </dependency> -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<!-- <groupId>org.springframework.boot</groupId> -->
+			<!-- <artifactId>spring-boot-starter-thymeleaf-test</artifactId> -->
+			<!-- <scope>test</scope> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-artemis</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-artemis-test</artifactId>
+    <scope>test</scope>
+</dependency>
+
+    <dependency>
+        <groupId>org.apache.activemq</groupId>
+        <artifactId>artemis-server</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.activemq</groupId>
+        <artifactId>artemis-jms-client</artifactId>
+    </dependency>
+
+	<!-- Source: https://mvnrepository.com/artifact/com.github.emilianobonassi.jpbc/jpbc-plaf -->
+	<dependency>
+	    <groupId>com.github.emilianobonassi.jpbc</groupId>
+	    <artifactId>jpbc-plaf</artifactId>
+	    <version>2.0.0</version>
+	    <scope>compile</scope>
+	</dependency>
+</dependencies>
+<repositories>
+    <repository>
+        <id>scijava.public</id>
+        <url>https://maven.scijava.org/content/repositories/public/</url>
+    </repository>
+    <repository>
+        <id>maven.central</id>
+        <url>https://repo1.maven.org/maven2/</url>
+    </repository>
+<repository>
+	<id>jitpack.io</id>
+	<url>https://jitpack.io</url>
+</repository>
+
+</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

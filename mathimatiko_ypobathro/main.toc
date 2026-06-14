@@ -1,0 +1,151 @@
+\xpg@aux {}{greek}
+\contentsline {chapter}{\numberline {1}Εισαγωγή}{5}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Στόχοι της Εργασίας}{5}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Δομή της Εργασίας}{6}{section.1.2}%
+\contentsline {chapter}{\numberline {2}Μαθηματικό Υπόβαθρο}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Ομάδες (Groups)}{7}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Κυκλικές Ομάδες και Γεννήτορες}{7}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Πεπερασμένα Σώματα}{8}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Αριθμητική Modulo}{8}{subsection.2.1.3}%
+\contentsline {section}{\numberline {2.2}Συναρτήσεις Κατακερματισμού}{8}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Πρωτόκολλα Ανταλλαγής Κλειδιών}{8}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Πρωτόκολλο Diffie--Hellman}{8}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Ελλειπτική Εκδοχή Diffie--Hellman (ECDH)}{9}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Group Diffie--Hellman}{9}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}Contributory Key Agreement}{10}{subsection.2.3.4}%
+\contentsline {subsection}{\numberline {2.3.5}Υπολογιστική Ασφάλεια και Δύσκολα Μαθηματικά Προβλήματα}{10}{subsection.2.3.5}%
+\contentsline {section}{\numberline {2.4}Κρυπτογραφία Ελλειπτικών Καμπυλών}{10}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Ελλειπτικές Καμπύλες και Σημεία}{11}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Γεωμετρική και Αλγεβρική Δομή}{11}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Πολλαπλασιασμός με Βαθμωτό (Scalar Multiplication)}{12}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}Ασφάλεια της ECC}{12}{subsection.2.4.4}%
+\contentsline {subsection}{\numberline {2.4.5}Πλεονεκτήματα της Κρυπτογραφίας Ελλειπτικών Καμπυλών}{12}{subsection.2.4.5}%
+\contentsline {section}{\numberline {2.5}Δύσκολα Υπολογιστικά Προβλήματα}{13}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Πρόβλημα Διακριτού Λογαρίθμου (Discrete Logarithm Problem)}{13}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Υπολογιστικό Πρόβλημα Diffie--Hellman (Computational Diffie--Hellman)}{13}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Αποφασιστικό Πρόβλημα Diffie--Hellman (Decisional Diffie--Hellman)}{13}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.4}Διγραμμικό Πρόβλημα Diffie--Hellman (Bilinear Diffie--Hellman)}{14}{subsection.2.5.4}%
+\contentsline {subsection}{\numberline {2.5.5}Υπολογιστικές Υποθέσεις και Προβλήματα: Σχέση CDH και DDH}{14}{subsection.2.5.5}%
+\contentsline {section}{\numberline {2.6}Pairing-Based Cryptography}{15}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Bilinear Pairings}{15}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Ιδιότητες}{16}{subsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.6.3}Κατηγοριοποίηση Ζευγοποιήσεων}{16}{subsection.2.6.3}%
+\contentsline {subsection}{\numberline {2.6.4}Τύποι Pairings}{17}{subsection.2.6.4}%
+\contentsline {subsection}{\numberline {2.6.5}Weil Pairing}{17}{subsection.2.6.5}%
+\contentsline {subsection}{\numberline {2.6.6}Tate Pairing}{18}{subsection.2.6.6}%
+\contentsline {subsection}{\numberline {2.6.7}Ate Pairing}{19}{subsection.2.6.7}%
+\contentsline {subsection}{\numberline {2.6.8}Pairing-Friendly Καμπύλες}{19}{subsection.2.6.8}%
+\contentsline {subsection}{\numberline {2.6.9}Πλεονεκτήματα και Μειονεκτήματα των Ζευγοποιήσεων}{19}{subsection.2.6.9}%
+\contentsline {section}{\numberline {2.7}Group Key Agreement}{19}{section.2.7}%
+\contentsline {chapter}{\numberline {3}Πρωτόκολλα Ομαδικής Συμφωνίας Κλειδιού (Group Key Agreement Protocols)}{23}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Εισαγωγή}{23}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Βασικές Απαιτήσεις}{23}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Κεντρικοποιημένες Προσεγγίσεις}{24}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Κατανεμημένες Προσεγγίσεις}{24}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Δενδροειδείς Προσεγγίσεις (Tree-Based Approaches)}{24}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Pairing-Based Group Key Agreement}{25}{section.3.6}%
+\contentsline {section}{\numberline {3.7}Σύγκριση Προσεγγίσεων Group Key Agreement}{25}{section.3.7}%
+\contentsline {section}{\numberline {3.8}Δυναμική Συμμετοχή (Dynamic Membership)}{26}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Μηχανισμοί Επανακλειδώματος (Rekeying Mechanisms)}{26}{section.3.9}%
+\contentsline {section}{\numberline {3.10}Κλασικά Πρωτόκολλα Ομαδικής Συμφωνίας Κλειδιού}{26}{section.3.10}%
+\contentsline {section}{\numberline {3.11}Επιθέσεις σε Πρωτόκολλα Group Key Agreement}{27}{section.3.11}%
+\contentsline {section}{\numberline {3.12}Συμπεράσματα}{27}{section.3.12}%
+\contentsline {chapter}{\numberline {4}Τεχνολογία Blockchain}{28}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Εξέλιξη των Blockchain}{28}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Δημόσια, Ιδιωτικά και Permissioned Blockchain}{28}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Μηχανισμοί Συναίνεσης}{29}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Smart Contracts}{29}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Identity Management}{30}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Proof of Work (PoW)}{30}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Proof of Stake (PoS)}{30}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Practical Byzantine Fault Tolerance (PBFT)}{30}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Raft}{31}{subsection.4.5.4}%
+\contentsline {section}{\numberline {4.6}Identity Management}{31}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Δομή ενός Block}{31}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Merkle Trees}{31}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Ασφάλεια Blockchain}{32}{section.4.9}%
+\contentsline {section}{\numberline {4.10}Blockchain και Διαχείριση Κλειδιών}{32}{section.4.10}%
+\contentsline {chapter}{\numberline {5}Hyperledger Fabric}{33}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Εισαγωγή}{33}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Αρχιτεκτονική Hyperledger Fabric}{33}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Συστατικά του Fabric}{33}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Peers}{33}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Orderers}{33}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}MSP (Membership Service Provider)}{34}{subsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.3.4}Certificate Authorities}{34}{subsection.5.3.4}%
+\contentsline {section}{\numberline {5.4}Channels}{34}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Δομή του Ledger}{34}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Endorsement Policies}{34}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Chaincode}{35}{section.5.7}%
+\contentsline {section}{\numberline {5.8}Private Data Collections}{35}{section.5.8}%
+\contentsline {section}{\numberline {5.9}Μοντέλο Ασφάλειας του Fabric}{35}{section.5.9}%
+\contentsline {chapter}{\numberline {6}Άρθρο Υλοποίησης}{36}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Μοντέλο Συστήματος}{36}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Κρυπτογραφική Αρχικοποίηση}{37}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Δημιουργία και Διαχείριση Κλειδιών}{39}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Πρωτόκολλο Συμφωνίας Ομαδικού Κλειδιού}{41}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Παραγωγή Τυχαίων Τιμών}{41}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Υπολογισμός Δημόσιων Συνεισφορών}{41}{subsection.6.4.2}%
+\contentsline {subsection}{\numberline {6.4.3}Δημιουργία Κρυπτογραφικής Δέσμευσης}{42}{subsection.6.4.3}%
+\contentsline {subsection}{\numberline {6.4.4}Δημιουργία Ψηφιακής Υπογραφής}{42}{subsection.6.4.4}%
+\contentsline {subsection}{\numberline {6.4.5}Ανταλλαγή Μηνυμάτων}{42}{subsection.6.4.5}%
+\contentsline {section}{\numberline {6.5}Επαλήθευση Μηνυμάτων}{43}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Παραγωγή Ομαδικού Κλειδιού}{44}{section.6.6}%
+\contentsline {subsection}{\numberline {6.6.1}Παραγωγή των Τιμών \(f_i\)}{44}{subsection.6.6.1}%
+\contentsline {subsection}{\numberline {6.6.2}Υπολογισμός της Παραμέτρου \(\beta \)}{45}{subsection.6.6.2}%
+\contentsline {subsection}{\numberline {6.6.3}Τοπικός Υπολογισμός της Παραμέτρου \(\alpha _i\)}{45}{subsection.6.6.3}%
+\contentsline {subsection}{\numberline {6.6.4}Υπολογισμός του Τελικού Ομαδικού Κλειδιού}{46}{subsection.6.6.4}%
+\contentsline {subsection}{\numberline {6.6.5}Αυτοπιστοποίηση του Κλειδιού}{46}{subsection.6.6.5}%
+\contentsline {section}{\numberline {6.7}Ενσωμάτωση Blockchain}{46}{section.6.7}%
+\contentsline {subsection}{\numberline {6.7.1}Καταγραφή Δημοσίων Παραμέτρων}{47}{subsection.6.7.1}%
+\contentsline {subsection}{\numberline {6.7.2}Καταγραφή Δημοσίων Συνεισφορών}{47}{subsection.6.7.2}%
+\contentsline {subsection}{\numberline {6.7.3}Καταγραφή Υπογραφών}{47}{subsection.6.7.3}%
+\contentsline {subsection}{\numberline {6.7.4}Χρήση Chaincode}{47}{subsection.6.7.4}%
+\contentsline {subsection}{\numberline {6.7.5}Ρόλος των Peers}{48}{subsection.6.7.5}%
+\contentsline {subsection}{\numberline {6.7.6}Ρόλος των Orderers}{48}{subsection.6.7.6}%
+\contentsline {subsection}{\numberline {6.7.7}Ιχνηλασιμότητα και Μη Αποποίηση Ευθύνης}{48}{subsection.6.7.7}%
+\contentsline {subsection}{\numberline {6.7.8}Πλεονεκτήματα της Ενσωμάτωσης Blockchain}{49}{subsection.6.7.8}%
+\contentsline {section}{\numberline {6.8}Ανάλυση Ορθότητας}{49}{section.6.8}%
+\contentsline {section}{\numberline {6.9}Ανάλυση Ασφάλειας}{51}{section.6.9}%
+\contentsline {subsection}{\numberline {6.9.1}Αυθεντικοποίηση Συμμετεχόντων}{51}{subsection.6.9.1}%
+\contentsline {subsection}{\numberline {6.9.2}Ακεραιότητα Δεδομένων}{52}{subsection.6.9.2}%
+\contentsline {subsection}{\numberline {6.9.3}Forward Secrecy}{52}{subsection.6.9.3}%
+\contentsline {subsection}{\numberline {6.9.4}Backward Secrecy}{52}{subsection.6.9.4}%
+\contentsline {subsection}{\numberline {6.9.5}Key Independence}{53}{subsection.6.9.5}%
+\contentsline {subsection}{\numberline {6.9.6}Ανθεκτικότητα σε Replay Attacks}{53}{subsection.6.9.6}%
+\contentsline {subsection}{\numberline {6.9.7}Ανθεκτικότητα σε Man-in-the-Middle Επιθέσεις}{53}{subsection.6.9.7}%
+\contentsline {subsection}{\numberline {6.9.8}Ανθεκτικότητα σε Επιθέσεις Συνωμοσίας}{53}{subsection.6.9.8}%
+\contentsline {subsection}{\numberline {6.9.9}Ακεραιότητα του Blockchain}{54}{subsection.6.9.9}%
+\contentsline {subsection}{\numberline {6.9.10}Σχέση με την Υπόθεση Bilinear Diffie--Hellman}{54}{subsection.6.9.10}%
+\contentsline {chapter}{\numberline {7}Τεχνολογίες Υλοποίησης}{55}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Spring Boot}{55}{section.7.1}%
+\contentsline {section}{\numberline {7.2}RESTful Web Services}{55}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Apache ActiveMQ Artemis}{55}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Java Message Service (JMS)}{56}{section.7.4}%
+\contentsline {section}{\numberline {7.5}Docker}{56}{section.7.5}%
+\contentsline {section}{\numberline {7.6}JPBC Library}{56}{section.7.6}%
+\contentsline {chapter}{\numberline {8}Σχεδιασμός Εφαρμογής}{58}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Hyperledger Fabric Network}{58}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Organizations}{58}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Ροή Εκτέλεσης του Πρωτοκόλλου}{59}{section.8.3}%
+\contentsline {subsection}{\numberline {8.3.1}Τύποι Μηνυμάτων}{59}{subsection.8.3.1}%
+\contentsline {subsection}{\numberline {8.3.2}Φάση Εκκίνησης (START)}{60}{subsection.8.3.2}%
+\contentsline {subsection}{\numberline {8.3.3}Φάση Καθορισμού Συμμετεχόντων}{60}{subsection.8.3.3}%
+\contentsline {subsection}{\numberline {8.3.4}Φάση Ανταλλαγής Δημοσίων Κλειδιών}{60}{subsection.8.3.4}%
+\contentsline {subsection}{\numberline {8.3.5}Φάση Δημιουργίας Blocks}{60}{subsection.8.3.5}%
+\contentsline {subsection}{\numberline {8.3.6}Φάση Υπολογισμού Group Key}{61}{subsection.8.3.6}%
+\contentsline {subsection}{\numberline {8.3.7}Υπολογισμός του Τελικού Κλειδιού}{61}{subsection.8.3.7}%
+\contentsline {subsection}{\numberline {8.3.8}Φάση Τελικής Επαλήθευσης}{61}{subsection.8.3.8}%
+\contentsline {subsection}{\numberline {8.3.9}Υλοποίηση Chaincode}{61}{subsection.8.3.9}%
+\contentsline {section}{\numberline {8.4}Repository Layer}{62}{section.8.4}%
+\contentsline {section}{\numberline {8.5}Service Layer}{62}{section.8.5}%
+\contentsline {section}{\numberline {8.6}Αρχικοποίηση Pairings}{62}{section.8.6}%
+\contentsline {subsection}{\numberline {8.6.1}Υλοποίηση BLS Υπογραφών}{62}{subsection.8.6.1}%
+\contentsline {chapter}{\numberline {9}Πειράματα και Μετρήσεις}{63}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Περιβάλλον Πειραμάτων}{63}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Μεθοδολογία Μετρήσεων}{64}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Επεκτασιμότητα πρωτοκόλλου}{64}{section.9.3}%
+\contentsline {section}{\numberline {9.4}Επικοινωνιακό κόστος}{64}{section.9.4}%
+\contentsline {section}{\numberline {9.5}Συμπεράσματα}{65}{section.9.5}%
+\contentsline {chapter}{\numberline {10}Πηγαίος Κώδικας}{66}{chapter.10}%
+\contentsline {chapter}{\numberline {11}Βιβλιογραφία}{84}{chapter.11}%
